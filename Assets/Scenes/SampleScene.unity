@@ -137,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!156049354 &108834742
 Grid:
   m_ObjectHideFlags: 0
@@ -3583,12 +3583,12 @@ GameObject:
   - component: {fileID: 1889475086}
   - component: {fileID: 1889475085}
   m_Layer: 0
-  m_Name: Testing
+  m_Name: MainGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1889475085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3601,6 +3601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fb37a91cc374d3aa618983a31760a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 3607372037651460023, guid: 10a22fc3c270fe542833b54f709b1b6a, type: 3}
 --- !u!4 &1889475086
 Transform:
   m_ObjectHideFlags: 0
