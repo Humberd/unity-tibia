@@ -1,62 +1,63 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
-    private CharacterController _controller;
-    public Tilemap tilemap;
     public Grid grid;
-    public float speed = 2.0f;
+    public float speed = 1.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _controller = gameObject.AddComponent<CharacterController>();
-    }
+    private bool _isMoving;
+    private Vector3 _targetPosition;
 
     // Update is called once per frame
     void Update()
     {
-        var move = getMove();
-        transform.Translate(move);
-
-
-        var pos = grid.WorldToCell(transform.position);
-        var tileBase = tilemap.GetTile(pos);
-        // Debug.Log(tileBase.name);
-        // Debug.Log(pos);
-
+        CheckPlayerInput();
+        if (_isMoving)
+        {
+            var step = speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, step);
+            if (transform.position == _targetPosition)
+            {
+                _isMoving = false;
+            }
+        }
     }
 
-    private Vector2 getMove()
+    private void CheckPlayerInput()
     {
-        var isUp = Input.GetKeyDown(KeyCode.W);
-        var isDown = Input.GetKeyDown(KeyCode.S);
-        var isLeft = Input.GetKeyDown(KeyCode.A);
-        var isRight = Input.GetKeyDown(KeyCode.D);
-
-        Vector3 foo = new Vector3();
-        if (isUp)
+        if (_isMoving)
         {
-            return Vector2.up;
+            return;
         }
 
-        if (isDown)
+        var cellDirection = Vector3Int.zero;
+        if (Input.GetKey(KeyCode.W))
         {
-            return Vector2.down;
+            cellDirection = Vector3Int.up;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            cellDirection = Vector3Int.down;
         }
 
-        if (isLeft)
+        if (Input.GetKey(KeyCode.A))
         {
-            return Vector2.left;
+            cellDirection = Vector3Int.left;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            cellDirection = Vector3Int.right;
         }
 
-        if (isRight)
+        if (cellDirection != Vector3Int.zero)
         {
-            return Vector2.right;
+            _isMoving = true;
+            var currentCellPosition = grid.WorldToCell(transform.position);
+            var nextCellPosition = currentCellPosition + cellDirection;
+            _targetPosition = grid.CellToWorld(nextCellPosition);
         }
-
-        return Vector2.zero;
     }
 
 }
