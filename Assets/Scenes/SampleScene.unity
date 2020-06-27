@@ -3388,6 +3388,16 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7059961409582525647, guid: 97e52968a6e564341a8f89471c377af6,
+        type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 108834742}
+    - target: {fileID: 7059961409582525647, guid: 97e52968a6e564341a8f89471c377af6,
+        type: 3}
+      propertyPath: tilemap
+      value: 
+      objectReference: {fileID: 1313853462}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97e52968a6e564341a8f89471c377af6, type: 3}
 --- !u!4 &1550817570 stripped
