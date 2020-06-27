@@ -55,16 +55,16 @@ TextureImporter:
     second: Sprites 114608-114751_16
   - first:
       213: -1800733692737959193
-    second: Sprites 114608-114751_17
+    second: great heal potion
   - first:
       213: 6491638666275103294
-    second: Sprites 114608-114751_18
+    second: great mana potion
   - first:
       213: -8932233332046093714
-    second: Sprites 114608-114751_19
+    second: super mana potion
   - first:
       213: -9209701022279670541
-    second: Sprites 114608-114751_20
+    second: super health potion
   - first:
       213: -7607053480193037452
     second: Sprites 114608-114751_21
@@ -106,10 +106,10 @@ TextureImporter:
     second: Sprites 114608-114751_33
   - first:
       213: 4301642111293318229
-    second: Sprites 114608-114751_34
+    second: health potion
   - first:
       213: -1708103697952887007
-    second: Sprites 114608-114751_35
+    second: mana potion
   - first:
       213: -5513620948427187215
     second: Sprites 114608-114751_36
@@ -487,16 +487,16 @@ TextureImporter:
     second: Sprites 114608-114751_16
   - first:
       213: -7133067049899281140
-    second: Sprites 114608-114751_17
+    second: great heal potion
   - first:
       213: 6129439102724741307
-    second: Sprites 114608-114751_18
+    second: great mana potion
   - first:
       213: -1457214457588479772
-    second: Sprites 114608-114751_19
+    second: super mana potion
   - first:
       213: -6750109514763468256
-    second: Sprites 114608-114751_20
+    second: super health potion
   - first:
       213: -2732584839645759701
     second: Sprites 114608-114751_21
@@ -538,10 +538,10 @@ TextureImporter:
     second: Sprites 114608-114751_33
   - first:
       213: -3993028050286740928
-    second: Sprites 114608-114751_34
+    second: health potion
   - first:
       213: -253811069036017892
-    second: Sprites 114608-114751_35
+    second: mana potion
   - first:
       213: 8100025092671531109
     second: Sprites 114608-114751_36
@@ -1308,7 +1308,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprites 114608-114751_17
+      name: great heal potion
       rect:
         serializedVersion: 2
         x: 160
@@ -1329,7 +1329,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprites 114608-114751_18
+      name: great mana potion
       rect:
         serializedVersion: 2
         x: 192
@@ -1350,7 +1350,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprites 114608-114751_19
+      name: super mana potion
       rect:
         serializedVersion: 2
         x: 224
@@ -1371,7 +1371,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprites 114608-114751_20
+      name: super health potion
       rect:
         serializedVersion: 2
         x: 256
@@ -1665,7 +1665,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprites 114608-114751_34
+      name: health potion
       rect:
         serializedVersion: 2
         x: 320
@@ -1686,7 +1686,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprites 114608-114751_35
+      name: mana potion
       rect:
         serializedVersion: 2
         x: 352

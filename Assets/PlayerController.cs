@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.Tilemaps;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Grid grid;
+    public UnityEngine.Grid grid;
     public float speed = 1.0f;
 
     private bool _isMoving;
