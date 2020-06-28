@@ -14,7 +14,7 @@ public class CellItem : MonoBehaviour
 
     public void SetItem(Item item)
     {
-        this._item = item;
+        _item = item;
         _spriteRenderer.sprite = item.sprite;
     }
 }

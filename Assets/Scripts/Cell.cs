@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    private Vector2Int _coords;
+    public Vector2Int coords;
     private Queue<CellItem> _cellItems = new Queue<CellItem>();
 
     public void AddItem(string itemName)
@@ -16,6 +16,6 @@ public class Cell : MonoBehaviour
 
     public void SetCoords(Vector2Int coords)
     {
-        _coords = coords;
+        this.coords = coords;
     }
 }

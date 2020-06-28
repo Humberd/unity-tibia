@@ -3596,12 +3596,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889475084}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fb37a91cc374d3aa618983a31760a68, type: 3}
+  m_Script: {fileID: 11500000, guid: ed933d5b1d704878aaed6ae8416ff5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3607372037651460023, guid: 10a22fc3c270fe542833b54f709b1b6a, type: 3}
+  width: 4
+  height: 3
+  cellSize: 1
 --- !u!4 &1889475086
 Transform:
   m_ObjectHideFlags: 0
