@@ -11,7 +11,10 @@ public class CellItem : MonoBehaviour
     {
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         if (_item)
+        {
             _spriteRenderer.sprite = _item.sprite;
+            _spriteRenderer.sortingLayerName = _item.itemType.toLayerName();
+        }
     }
 
     public void DestroyItem()
@@ -23,6 +26,9 @@ public class CellItem : MonoBehaviour
     {
         _item = item;
         if (_spriteRenderer)
+        {
             _spriteRenderer.sprite = item.sprite;
+            _spriteRenderer.sortingLayerName = item.itemType.toLayerName();
+        }
     }
 }

@@ -11,8 +11,8 @@ public class MyGrid : MonoBehaviour
     private void Start()
     {
         cells = new Cell[width, height];
-        for (var x = 0; x < cells.GetLength(0); x++)
-        for (int y = 0; y < cells.GetLength(1); y++)
+        for (var x = 0; x < cells.GetLength(1); x++)
+        for (int y = 0; y < cells.GetLength(0); y++)
         {
             var cellGameObject = new GameObject($"{x}, {y}");
             cellGameObject.transform.SetParent(transform);
