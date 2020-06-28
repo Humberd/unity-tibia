@@ -14,16 +14,21 @@ public class MyGrid : MonoBehaviour
         for (var x = 0; x < cells.GetLength(0); x++)
         for (int y = 0; y < cells.GetLength(1); y++)
         {
-            cells[x, y] = gameObject.AddComponent<Cell>();
+            var cellGameObject = new GameObject($"{x}, {y}");
+            cellGameObject.transform.SetParent(transform);
+            cells[x, y] = cellGameObject.AddComponent<Cell>();
             cells[x, y].SetCoords(new Vector2Int(x, y));
+            cells[x, y].setParent(this);
         }
 
         foreach (var cell in cells)
         {
             cell.AddItem("Dirt");
         }
-    }
 
+        cells[1,1].AddItem("Great Mana Potion");
+        cells[1,1].AddItem("Mana Potion");
+    }
     private void OnDrawGizmos()
     {
         for (var x = 0; x < width; x++)

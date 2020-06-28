@@ -10,11 +10,14 @@ public class CellItem : MonoBehaviour
     private void Start()
     {
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        if (_item)
+            _spriteRenderer.sprite = _item.sprite;
     }
 
     public void SetItem(Item item)
     {
         _item = item;
-        _spriteRenderer.sprite = item.sprite;
+        if (_spriteRenderer)
+            _spriteRenderer.sprite = item.sprite;
     }
 }
