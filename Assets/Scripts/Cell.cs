@@ -4,7 +4,7 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
     public Vector2Int coords;
-    public Stack<CellItem> cellItems = new Stack<CellItem>();
+    public Stack<CellContent> cellItems = new Stack<CellContent>();
     private MyGrid grid;
 
     private void Update()
@@ -15,11 +15,11 @@ public class Cell : MonoBehaviour
 
     public void AddItem(string itemName)
     {
-        var item = Resources.Load<Item>($"Items/{itemName}");
+        var item = Resources.Load<Resource>($"Items/{itemName}");
         var cellItemObject = new GameObject(item.name);
         cellItemObject.transform.SetParent(transform);
-        var cellItem = cellItemObject.AddComponent<CellItem>();
-        cellItem.SetItem(item);
+        var cellItem = cellItemObject.AddComponent<CellContent>();
+        cellItem.SetResource(item);
         cellItems.Push(cellItem);
     }
 

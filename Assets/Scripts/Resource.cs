@@ -1,16 +1,17 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Items", order = 0)]
-public class Item : ScriptableObject
+public class Resource : ScriptableObject
 {
     public Sprite sprite;
     public uint id;
     public string itemName;
-    public ItemType itemType;
+    public ResourceType resourceType;
 
-    public enum ItemType
+    public enum ResourceType
     {
         Terrain,
         Item,
@@ -20,17 +21,17 @@ public class Item : ScriptableObject
 
 public static class ItemTypeExtensions
 {
-    public static string toLayerName(this Item.ItemType itemType)
+    public static string toLayerName(this Resource.ResourceType resourceType)
     {
-        if (itemType == Item.ItemType.Terrain)
+        if (resourceType == Resource.ResourceType.Terrain)
         {
             return "Terrain";
         }
-        if (itemType == Item.ItemType.Item)
+        if (resourceType == Resource.ResourceType.Item)
         {
             return "Items";
         }
-        if (itemType == Item.ItemType.Creature)
+        if (resourceType == Resource.ResourceType.Creature)
         {
             return "Creatures";
         }
