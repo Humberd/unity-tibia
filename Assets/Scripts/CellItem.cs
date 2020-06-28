@@ -14,6 +14,11 @@ public class CellItem : MonoBehaviour
             _spriteRenderer.sprite = _item.sprite;
     }
 
+    public void DestroyItem()
+    {
+        Destroy(gameObject);
+    }
+
     public void SetItem(Item item)
     {
         _item = item;

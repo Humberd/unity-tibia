@@ -28,6 +28,9 @@ public class MyGrid : MonoBehaviour
 
         cells[1,1].AddItem("Great Mana Potion");
         cells[1,1].AddItem("Mana Potion");
+
+        cells[1,2].AddItem("Mana Potion");
+        cells[1,2].cellItems.Peek().DestroyItem();
     }
     private void OnDrawGizmos()
     {
