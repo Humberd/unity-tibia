@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class CellContent : MonoBehaviour
+public abstract class CellContent : MonoBehaviour
 {
     private SpriteRenderer _spriteRenderer;
     private Resource _resource;
@@ -17,9 +17,9 @@ public class CellContent : MonoBehaviour
         }
     }
 
-    public void DestroyItem()
+    public void DestroyContent()
     {
-        Destroy(gameObject);
+        DestroyImmediate(gameObject);
     }
 
     public void SetResource(Resource resource)

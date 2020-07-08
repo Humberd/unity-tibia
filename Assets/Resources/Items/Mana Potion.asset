@@ -15,3 +15,4 @@ MonoBehaviour:
   sprite: {fileID: -1708103697952887007, guid: f719d8e19c8e81747b3c63db4980aae1, type: 3}
   id: 4
   itemName: Mana Potion
+  resourceType: 1

@@ -11,8 +11,8 @@ public class MyGrid : MonoBehaviour
     private void Start()
     {
         cells = new Cell[width, height];
-        for (var x = 0; x < cells.GetLength(1); x++)
-        for (int y = 0; y < cells.GetLength(0); y++)
+        for (var x = 0; x < cells.GetLength(0); x++)
+        for (int y = 0; y < cells.GetLength(1); y++)
         {
             var cellGameObject = new GameObject($"{x}, {y}");
             cellGameObject.transform.SetParent(transform);
@@ -30,7 +30,7 @@ public class MyGrid : MonoBehaviour
         cells[1,1].AddItem("Mana Potion");
 
         cells[1,2].AddItem("Mana Potion");
-        cells[1,2].cellItems.Peek().DestroyItem();
+        cells[1,2].cellItems.Peek().DestroyContent();
     }
     private void OnDrawGizmos()
     {
