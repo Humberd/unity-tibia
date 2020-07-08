@@ -10,6 +10,7 @@ public class Resource : ScriptableObject
     public uint id;
     public string itemName;
     public ResourceType resourceType;
+    public bool isMovable;
 
     public enum ResourceType
     {

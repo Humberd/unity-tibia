@@ -16,3 +16,4 @@ MonoBehaviour:
   id: 3
   itemName: Great Mana Potion
   resourceType: 1
+  isMovable: 1

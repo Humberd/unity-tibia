@@ -51,4 +51,24 @@ public class MyGrid : MonoBehaviour
         return new Vector3(xy.x, xy.y) * cellSize + transform.position;
     }
 
+    public Cell GetCellBy(Vector2Int coords)
+    {
+        try
+        {
+            return cells[coords.x, coords.y];
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e);
+            return null;
+        }
+    }
+
+    public Vector2Int GetCoordinates(Vector3 vector3)
+    {
+        var position = transform.position;
+        return new Vector2Int(Mathf.FloorToInt(vector3.x - position.x / cellSize),
+            Mathf.FloorToInt(vector3.y - position.y / cellSize));
+    }
+
 }
