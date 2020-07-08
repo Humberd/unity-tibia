@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public abstract class CellContent : MonoBehaviour
+public class CellContent : MonoBehaviour
 {
     private SpriteRenderer _spriteRenderer;
     private Resource _resource;
