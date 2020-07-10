@@ -7,8 +7,9 @@ namespace CellContents
     public abstract class CreatureController : CellContent<CreatureResource>
     {
         private bool _isMoving;
+        private Sprite _currentSprite;
 
-        protected new void Update()
+        protected override void Update()
         {
             if (_isMoving)
             {
@@ -22,6 +23,15 @@ namespace CellContents
             base.Update();
         }
 
+        protected override Sprite GetCurrentSprite()
+        {
+            if (_currentSprite == null)
+            {
+                return GetResource().directionalSprite.down;
+            }
+            return _currentSprite;
+        }
+
         public void Move(MoveDirection direction)
         {
             if (_isMoving)
@@ -33,15 +43,19 @@ namespace CellContents
             {
                 case MoveDirection.Up:
                     directionCoords = Vector2Int.up;
+                    _currentSprite = GetResource().directionalSprite.up;
                     break;
                 case MoveDirection.Down:
                     directionCoords = Vector2Int.down;
+                    _currentSprite = GetResource().directionalSprite.down;
                     break;
                 case MoveDirection.Right:
                     directionCoords = Vector2Int.right;
+                    _currentSprite = GetResource().directionalSprite.right;
                     break;
                 case MoveDirection.Left:
                     directionCoords = Vector2Int.left;
+                    _currentSprite = GetResource().directionalSprite.left;
                     break;
                 default:
                     throw new NotReached();

@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public abstract class CellContent<TResourceType> : MonoBehaviour where TResourceType : Resource
 {
-    private SpriteRenderer _spriteRenderer;
+    protected SpriteRenderer SpriteRenderer;
     private TResourceType _resource;
     private int _sortOrder;
     protected Cell ParentCell;
@@ -14,18 +14,23 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
 
     private void Start()
     {
-        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        SpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
-        _spriteRenderer.sortingOrder = _sortOrder;
-        _spriteRenderer.sprite = _resource.sprite;
-        _spriteRenderer.sortingLayerName = _resource.GetLayerName();
+        SpriteRenderer.sortingOrder = _sortOrder;
+        SpriteRenderer.sprite = GetCurrentSprite();
+        SpriteRenderer.sortingLayerName = _resource.GetLayerName();
         transform.localScale = new Vector2(_resource.scale, _resource.scale);
         float positionOffset = (_resource.scale - 1) / (float) 2;
         BaseLocalPosition = new Vector3(-positionOffset, positionOffset);
         transform.localPosition = BaseLocalPosition + LocalPositionOffset;
+    }
+
+    protected virtual Sprite GetCurrentSprite()
+    {
+        return _resource.sprite;
     }
 
     public void DestroyContent()

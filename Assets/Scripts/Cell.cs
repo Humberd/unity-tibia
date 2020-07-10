@@ -110,6 +110,18 @@ public class Cell : MonoBehaviour
         UpdateSortingOrder();
     }
 
+    public void AddMonster(string creatureName)
+    {
+        var creature = Resources.Load<CreatureResource>($"Creatures/{creatureName}");
+        var cellItemObject = new GameObject(creature.name);
+        cellItemObject.transform.SetParent(transform);
+        var creatureController = cellItemObject.AddComponent<MonsterController>();
+        creatureController.SetResource(creature);
+        creatures.Push(creatureController);
+        creatureController.SetParentCell(this);
+        UpdateSortingOrder();
+    }
+
     public bool MoveItem(ItemController itemController)
     {
         itemController.gameObject.transform.SetParent(transform, false);

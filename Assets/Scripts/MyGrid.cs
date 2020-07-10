@@ -32,8 +32,7 @@ public class MyGrid : MonoBehaviour
 
         cells[1, 2].AddItem("Mana Potion");
         cells[3, 2].AddPlayer("Ferumbras");
-        cells[3,2].creatures.Peek().Move(CreatureController.MoveDirection.Up);
-        // cells[1, 2].cellItems.Peek().DestroyContent();
+        cells[4, 5].AddMonster("Ferumbras");
     }
 
     private void OnDrawGizmos()
