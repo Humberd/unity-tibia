@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using ResourceTypes;
+using UnityEngine;
 
 namespace CellContents
 {
-    public class CreatureController : MonoBehaviour
+    public class CreatureController : CellContent<CreatureResource>
     {
 
     }

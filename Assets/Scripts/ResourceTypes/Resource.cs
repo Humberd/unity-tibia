@@ -7,6 +7,7 @@ namespace ResourceTypes
     public abstract class Resource : ScriptableObject
     {
         public Sprite sprite;
+        public int scale = 1;
 
         public abstract String GetLayerName();
     }

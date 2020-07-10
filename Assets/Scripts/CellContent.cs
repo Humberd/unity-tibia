@@ -19,6 +19,9 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
         _spriteRenderer.sortingOrder = _sortOrder;
         _spriteRenderer.sprite = _resource.sprite;
         _spriteRenderer.sortingLayerName = _resource.GetLayerName();
+        transform.localScale = new Vector2(_resource.scale, _resource.scale);
+        float positionOffset = (_resource.scale - 1) / (float)2;
+        transform.localPosition= new Vector2(-positionOffset, positionOffset);
     }
 
     public void DestroyContent()

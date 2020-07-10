@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8a3a6977d584e03b8a93510b9db35bb, type: 3}
-  m_Name: Great Mana Potion
+  m_Script: {fileID: 11500000, guid: 163446491d5f4ef78c7aa723c4baba64, type: 3}
+  m_Name: Ferumbras
   m_EditorClassIdentifier: 
-  sprite: {fileID: 6491638666275103294, guid: f719d8e19c8e81747b3c63db4980aae1, type: 3}
-  isDraggable: 1
+  sprite: {fileID: 6708740198528668497, guid: 437ba1efd8b30f74eaac426acf96c35e, type: 3}

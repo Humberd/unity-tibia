@@ -30,6 +30,7 @@ public class MyGrid : MonoBehaviour
         cells[1, 1].AddItem("Mana Potion");
 
         cells[1, 2].AddItem("Mana Potion");
+        cells[3, 2].AddCreature("Ferumbras");
         // cells[1, 2].cellItems.Peek().DestroyContent();
     }
 
