@@ -13,25 +13,25 @@ public class Cell : MonoBehaviour
     public Stack<ItemController> items = new Stack<ItemController>();
     public Stack<CreatureController> creatures = new Stack<CreatureController>();
 
-    private MyGrid _grid;
+    public MyGrid grid;
 
     private void Update()
     {
-        transform.localPosition = new Vector3(coords.x * _grid.cellSize + _grid.cellSize / 2,
-            coords.y * _grid.cellSize + _grid.cellSize / 2);
+        transform.localPosition = new Vector3(coords.x * grid.cellSize + grid.cellSize / 2,
+            coords.y * grid.cellSize + grid.cellSize / 2);
     }
 
     private void OnMouseUp()
     {
         var mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var mouseCoords = _grid.GetCoordinates(mouseWorldPosition);
+        var mouseCoords = grid.GetCoordinates(mouseWorldPosition);
         if (mouseCoords == coords)
         {
             Debug.Log("item not moved");
             return;
         }
 
-        var targetCell = _grid.GetCellBy(mouseCoords);
+        var targetCell = grid.GetCellBy(mouseCoords);
         if (targetCell == null)
         {
             Debug.Log("no target cell");
@@ -82,6 +82,7 @@ public class Cell : MonoBehaviour
         var cellItem = cellItemObject.AddComponent<ItemController>();
         cellItem.SetResource(item);
         items.Push(cellItem);
+        cellItem.SetParentCell(this);
         UpdateSortingOrder();
     }
 
@@ -93,6 +94,7 @@ public class Cell : MonoBehaviour
         var terrainController = cellItemObject.AddComponent<TerrainController>();
         terrainController.SetResource(terrain);
         terrains.Push(terrainController);
+        terrainController.SetParentCell(this);
         UpdateSortingOrder();
     }
 
@@ -104,14 +106,38 @@ public class Cell : MonoBehaviour
         var creatureController = cellItemObject.AddComponent<CreatureController>();
         creatureController.SetResource(creature);
         creatures.Push(creatureController);
+        creatureController.SetParentCell(this);
         UpdateSortingOrder();
     }
 
-    public void MoveItem(ItemController cellContent)
+    public bool MoveItem(ItemController itemController)
     {
-        cellContent.gameObject.transform.SetParent(transform, false);
-        items.Push(cellContent);
+        itemController.gameObject.transform.SetParent(transform, false);
+        items.Push(itemController);
+        itemController.SetParentCell(this);
         UpdateSortingOrder();
+
+        return true;
+    }
+
+    public bool MoveCreature(CreatureController creatureController)
+    {
+        if (creatureController.IsMoving)
+        {
+            Debug.Log("Creature is already moving");
+            return false;
+        }
+        creatureController.gameObject.transform.SetParent(transform, false);
+        if (creatures.Count > 0)
+        {
+            Debug.Log("There is already some creature in the cell");
+            return false;
+        }
+        creatures.Push(creatureController);
+        creatureController.SetParentCell(this);
+        UpdateSortingOrder();
+
+        return true;
     }
 
     public void SetCoords(Vector2Int coords)
@@ -121,7 +147,7 @@ public class Cell : MonoBehaviour
 
     public void setParent(MyGrid myGrid)
     {
-        this._grid = myGrid;
+        this.grid = myGrid;
     }
 
 }

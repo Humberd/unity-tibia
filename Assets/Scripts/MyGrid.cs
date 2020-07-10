@@ -1,4 +1,5 @@
 ﻿using System;
+using CellContents;
 using UnityEngine;
 
 public class MyGrid : MonoBehaviour
@@ -31,6 +32,7 @@ public class MyGrid : MonoBehaviour
 
         cells[1, 2].AddItem("Mana Potion");
         cells[3, 2].AddCreature("Ferumbras");
+        cells[3,2].creatures.Peek().Move(CreatureController.MoveDirection.Up);
         // cells[1, 2].cellItems.Peek().DestroyContent();
     }
 
