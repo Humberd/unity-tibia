@@ -139,12 +139,12 @@ public class Cell : MonoBehaviour
             Debug.Log("Creature is already moving");
             return false;
         }
-        creatureController.gameObject.transform.SetParent(transform, false);
         if (creatures.Count > 0)
         {
             Debug.Log("There is already some creature in the cell");
             return false;
         }
+        creatureController.gameObject.transform.SetParent(transform, false);
         creatures.Push(creatureController);
         creatureController.SetParentCell(this);
         UpdateSortingOrder();

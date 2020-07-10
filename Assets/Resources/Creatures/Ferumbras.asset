@@ -13,3 +13,10 @@ MonoBehaviour:
   m_Name: Ferumbras
   m_EditorClassIdentifier: 
   sprite: {fileID: 6708740198528668497, guid: 437ba1efd8b30f74eaac426acf96c35e, type: 3}
+  scale: 2
+  directionalSprite:
+    up: {fileID: 2160904416969205359, guid: 437ba1efd8b30f74eaac426acf96c35e, type: 3}
+    down: {fileID: 6708740198528668497, guid: 437ba1efd8b30f74eaac426acf96c35e, type: 3}
+    left: {fileID: 1448909581632181749, guid: 3b49bcc399b3dcc42b0fa503c38c2484, type: 3}
+    right: {fileID: 5372653201394201306, guid: 437ba1efd8b30f74eaac426acf96c35e, type: 3}
+  movementSpeed: 1

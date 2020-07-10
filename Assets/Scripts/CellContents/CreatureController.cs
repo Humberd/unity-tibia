@@ -72,6 +72,7 @@ namespace CellContents
             var wasMoved = targetCell.MoveCreature(ParentCell.creatures.Pop());
             if (!wasMoved)
             {
+                ParentCell.creatures.Push(this);
                 return;
             }
 
