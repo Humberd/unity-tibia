@@ -4,13 +4,12 @@ using UnityEngine;
 
 namespace CellContents
 {
-    public class CreatureController : CellContent<CreatureResource>
+    public abstract class CreatureController : CellContent<CreatureResource>
     {
         private bool _isMoving;
 
         protected new void Update()
         {
-            base.Update();
             if (_isMoving)
             {
                 var step = GetResource().movementSpeed * Time.deltaTime;
@@ -20,10 +19,15 @@ namespace CellContents
                     _isMoving = false;
                 }
             }
+            base.Update();
         }
 
         public void Move(MoveDirection direction)
         {
+            if (_isMoving)
+            {
+                return;
+            }
             Vector2Int directionCoords;
             switch (direction)
             {
