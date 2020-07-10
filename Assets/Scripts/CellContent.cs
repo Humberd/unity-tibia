@@ -8,7 +8,7 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
     protected SpriteRenderer SpriteRenderer;
     private TResourceType _resource;
     private int _sortOrder;
-    protected Cell ParentCell;
+    public Cell ParentCell { get; set; }
     protected Vector3 BaseLocalPosition;
     protected Vector3 LocalPositionOffset;
 
@@ -36,11 +36,6 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
     public void DestroyContent()
     {
         Destroy(gameObject);
-    }
-
-    public void SetParentCell(Cell parentCell)
-    {
-        ParentCell = parentCell;
     }
 
     public void SetResource(TResourceType resource)

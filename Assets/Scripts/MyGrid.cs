@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MyGrid : MonoBehaviour
 {
+    public static MyGrid Instance;
     public int width;
     public int height;
     public float cellSize = 1f;
@@ -11,6 +12,7 @@ public class MyGrid : MonoBehaviour
 
     private void Start()
     {
+        Instance = this;
         cells = new Cell[width, height];
         for (var x = 0; x < cells.GetLength(0); x++)
         for (int y = 0; y < cells.GetLength(1); y++)
@@ -19,7 +21,6 @@ public class MyGrid : MonoBehaviour
             cellGameObject.transform.SetParent(transform);
             cells[x, y] = cellGameObject.AddComponent<Cell>();
             cells[x, y].SetCoords(new Vector2Int(x, y));
-            cells[x, y].setParent(this);
         }
 
         foreach (var cell in cells)
@@ -33,6 +34,11 @@ public class MyGrid : MonoBehaviour
         cells[1, 2].AddItem("Mana Potion");
         cells[3, 2].AddPlayer("Ferumbras");
         cells[4, 5].AddMonster("Ferumbras");
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 
     private void OnDrawGizmos()
@@ -73,4 +79,31 @@ public class MyGrid : MonoBehaviour
         return new Vector2Int(Mathf.FloorToInt(vector3.x - position.x / cellSize),
             Mathf.FloorToInt(vector3.y - position.y / cellSize));
     }
+
+    public bool MoveCreature(CreatureController creatureController, Cell targetCell)
+    {
+        if (creatureController.IsMoving)
+        {
+            Debug.Log("Creature is already moving");
+            return false;
+        }
+
+        if (targetCell.creatures.Count > 0)
+        {
+            Debug.Log("There is already some creature in the cell");
+            return false;
+        }
+
+        var sourceCell = creatureController.ParentCell;
+
+        creatureController.ParentCell.creatures.Pop();
+        creatureController.gameObject.transform.SetParent(targetCell.transform);
+        targetCell.creatures.Push(creatureController);
+        creatureController.ParentCell = targetCell;
+        creatureController.OnCellMoveInitiated(sourceCell, targetCell);
+        creatureController.IsMoving = true;
+
+        return true;
+    }
+
 }

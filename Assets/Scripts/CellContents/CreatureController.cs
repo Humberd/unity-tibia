@@ -6,21 +6,32 @@ namespace CellContents
 {
     public abstract class CreatureController : CellContent<CreatureResource>
     {
-        private bool _isMoving;
+        public bool IsMoving { get; set; }
         private Sprite _currentSprite;
 
         protected override void Update()
         {
-            if (_isMoving)
+            if (IsMoving)
             {
-                var step = GetResource().movementSpeed * Time.deltaTime;
-                LocalPositionOffset = Vector2.MoveTowards(LocalPositionOffset, Vector2.zero, step);
+                CalculateMoveAnimationOffset();
                 if (LocalPositionOffset == Vector3.zero)
                 {
-                    _isMoving = false;
+                    IsMoving = false;
                 }
             }
+
             base.Update();
+        }
+
+        private void  CalculateMoveAnimationOffset()
+        {
+            var step = GetResource().movementSpeed * Time.deltaTime;
+            LocalPositionOffset = Vector2.MoveTowards(LocalPositionOffset, Vector2.zero, step);
+        }
+
+        public void OnCellMoveInitiated(Cell source, Cell target)
+        {
+            // CalculateMoveAnimationOffset();
         }
 
         protected override Sprite GetCurrentSprite()
@@ -29,15 +40,17 @@ namespace CellContents
             {
                 return GetResource().directionalSprite.down;
             }
+
             return _currentSprite;
         }
 
         public void Move(MoveDirection direction)
         {
-            if (_isMoving)
+            if (IsMoving)
             {
                 return;
             }
+
             Vector2Int directionCoords;
             switch (direction)
             {
@@ -62,27 +75,24 @@ namespace CellContents
             }
 
             var targetCellCoords = ParentCell.coords + directionCoords;
-            var targetCell = ParentCell.grid.GetCellBy(targetCellCoords);
+            var targetCell = MyGrid.Instance.GetCellBy(targetCellCoords);
             if (targetCell == null)
             {
                 Debug.LogWarning("Cannot find target cell");
                 return;
             }
 
-            var wasMoved = targetCell.MoveCreature(ParentCell.creatures.Pop());
+            var wasMoved = MyGrid.Instance.MoveCreature(this, targetCell);
             if (!wasMoved)
             {
-                ParentCell.creatures.Push(this);
+                Debug.Log("Was not moved");
                 return;
             }
 
             LocalPositionOffset = new Vector3(-directionCoords.x, -directionCoords.y);
 
-            _isMoving = true;
+            IsMoving = true;
         }
-
-        public bool IsMoving => _isMoving;
-
         public enum MoveDirection
         {
             Up,
