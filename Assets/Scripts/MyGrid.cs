@@ -23,27 +23,28 @@ public class MyGrid : MonoBehaviour
 
         foreach (var cell in cells)
         {
-            cell.AddItem("Dirt");
+            cell.AddTerrain("Dirt");
         }
 
-        cells[1,1].AddItem("Great Mana Potion");
-        cells[1,1].AddItem("Mana Potion");
+        cells[1, 1].AddItem("Great Mana Potion");
+        cells[1, 1].AddItem("Mana Potion");
 
-        cells[1,2].AddItem("Mana Potion");
-        cells[1,2].cellItems.Peek().DestroyContent();
+        cells[1, 2].AddItem("Mana Potion");
+        // cells[1, 2].cellItems.Peek().DestroyContent();
     }
+
     private void OnDrawGizmos()
     {
         for (var x = 0; x < width; x++)
         for (int y = 0; y < height; y++)
         {
-            var vector2Int = new Vector2Int(x,y);
+            var vector2Int = new Vector2Int(x, y);
             Gizmos.DrawLine(GetWorldPosition(vector2Int), GetWorldPosition(vector2Int + new Vector2Int(0, 1)));
             Gizmos.DrawLine(GetWorldPosition(vector2Int), GetWorldPosition(vector2Int + new Vector2Int(1, 0)));
         }
 
         Gizmos.DrawLine(GetWorldPosition(new Vector2Int(0, height)), GetWorldPosition(new Vector2Int(width, height)));
-        Gizmos.DrawLine(GetWorldPosition(new Vector2Int( width, 0)), GetWorldPosition(new Vector2Int(width, height)));
+        Gizmos.DrawLine(GetWorldPosition(new Vector2Int(width, 0)), GetWorldPosition(new Vector2Int(width, height)));
     }
 
     public Vector3 GetWorldPosition(Vector2Int xy)
@@ -70,5 +71,4 @@ public class MyGrid : MonoBehaviour
         return new Vector2Int(Mathf.FloorToInt(vector3.x - position.x / cellSize),
             Mathf.FloorToInt(vector3.y - position.y / cellSize));
     }
-
 }

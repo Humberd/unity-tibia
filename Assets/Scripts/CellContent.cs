@@ -1,11 +1,12 @@
 ﻿using System;
+using ResourceTypes;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class CellContent : MonoBehaviour
+public abstract class CellContent<TResourceType> : MonoBehaviour where TResourceType : Resource
 {
     private SpriteRenderer _spriteRenderer;
-    private Resource _resource;
+    private TResourceType _resource;
     private int _sortOrder;
 
     private void Start()
@@ -17,20 +18,20 @@ public class CellContent : MonoBehaviour
     {
         _spriteRenderer.sortingOrder = _sortOrder;
         _spriteRenderer.sprite = _resource.sprite;
-        _spriteRenderer.sortingLayerName = _resource.resourceType.toLayerName();
+        _spriteRenderer.sortingLayerName = _resource.GetLayerName();
     }
 
     public void DestroyContent()
     {
-        DestroyImmediate(gameObject);
+        Destroy(gameObject);
     }
 
-    public void SetResource(Resource resource)
+    public void SetResource(TResourceType resource)
     {
         _resource = resource;
     }
 
-    public Resource GetResource()
+    public TResourceType GetResource()
     {
         return _resource;
     }
