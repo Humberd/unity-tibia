@@ -44,6 +44,27 @@ namespace CellContents
             return _currentSprite;
         }
 
+        public void UpdateSprite(MoveDirection direction)
+        {
+            switch (direction)
+            {
+                case MoveDirection.Up:
+                    _currentSprite = GetResource().directionalSprite.up;
+                    break;
+                case MoveDirection.Down:
+                    _currentSprite = GetResource().directionalSprite.down;
+                    break;
+                case MoveDirection.Right:
+                    _currentSprite = GetResource().directionalSprite.right;
+                    break;
+                case MoveDirection.Left:
+                    _currentSprite = GetResource().directionalSprite.left;
+                    break;
+                default:
+                    throw new NotReached();
+            }
+        }
+
         public void Move(MoveDirection direction)
         {
             if (IsMoving)
@@ -51,24 +72,22 @@ namespace CellContents
                 return;
             }
 
+            UpdateSprite(direction);
+
             Vector2Int directionCoords;
             switch (direction)
             {
                 case MoveDirection.Up:
                     directionCoords = Vector2Int.up;
-                    _currentSprite = GetResource().directionalSprite.up;
                     break;
                 case MoveDirection.Down:
                     directionCoords = Vector2Int.down;
-                    _currentSprite = GetResource().directionalSprite.down;
                     break;
                 case MoveDirection.Right:
                     directionCoords = Vector2Int.right;
-                    _currentSprite = GetResource().directionalSprite.right;
                     break;
                 case MoveDirection.Left:
                     directionCoords = Vector2Int.left;
-                    _currentSprite = GetResource().directionalSprite.left;
                     break;
                 default:
                     throw new NotReached();
