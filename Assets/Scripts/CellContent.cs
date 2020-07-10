@@ -9,8 +9,8 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
     private TResourceType _resource;
     private int _sortOrder;
     public Cell ParentCell { get; set; }
-    protected Vector3 BaseLocalPosition;
-    protected Vector3 LocalPositionOffset;
+    public Vector3 BaseLocalPosition;
+    public Vector3 LocalPositionOffset;
 
     private void Start()
     {

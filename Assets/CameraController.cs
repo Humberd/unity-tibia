@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using CellContents;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform player;
+    public PlayerController player;
 
     // Update is called once per frame
     void Update()
     {
-        var position = player.position;
+        var position = player.transform.position - player.BaseLocalPosition;
         transform.position = new Vector3(position.x, position.y, -10f);
     }
 }
