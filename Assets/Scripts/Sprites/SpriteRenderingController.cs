@@ -38,9 +38,13 @@ namespace Sprites
             _layerName = layerName;
         }
 
-        public void UpdateScale(float scale)
+        public void SetupTransforms(float scale)
         {
-            transform.localScale = new Vector2(scale, scale);
+            var transform1 = transform;
+            transform1.localScale = new Vector2(scale, scale);
+
+            float positionOffset = (scale - 1) / 2;
+            transform1.localPosition = new Vector2(-positionOffset, positionOffset);
         }
     }
 }

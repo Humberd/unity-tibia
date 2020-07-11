@@ -7,7 +7,6 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
     protected SpriteRenderingController SpriteRenderingController;
     private TResourceType _resource;
     public Cell ParentCell { get; set; }
-    public Vector3 baseLocalPosition;
     public Vector3 animationPositionOffset;
     private int _lazySortOrder;
 
@@ -18,15 +17,13 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
         SpriteRenderingController = spriteRendererObject.AddComponent<SpriteRenderingController>();
 
         SpriteRenderingController.UpdateLayerName(_resource.GetLayerName());
-        SpriteRenderingController.UpdateScale(_resource.scale);
         SpriteRenderingController.UpdateSortOrder(_lazySortOrder);
-        float positionOffset = (_resource.scale - 1) / (float) 2;
-        baseLocalPosition = new Vector3(-positionOffset, positionOffset);
+        SpriteRenderingController.SetupTransforms(_resource.scale);
     }
 
     protected virtual void Update()
     {
-        transform.localPosition = baseLocalPosition + animationPositionOffset;
+        transform.localPosition = animationPositionOffset;
     }
 
     public void SetResource(TResourceType resource)

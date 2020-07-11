@@ -23,6 +23,7 @@ namespace CellContents
 
             var barPrefab = Resources.Load<GameObject>("UI/Bar");
             _healthBarContoller = Instantiate(barPrefab, transform).GetComponent<BarController>();
+            _healthBarContoller.UpdatePosition();
 
             SpriteRenderingController.UpdateSprite(GetResource().idleAnimations.Down);
         }
@@ -44,7 +45,7 @@ namespace CellContents
                 UpdateSprite();
             }
 
-            _healthBarContoller.gameObject.transform.localPosition = -baseLocalPosition/2;
+            // _healthBarContoller.gameObject.transform.localPosition = -baseLocalPosition/2;
             _healthBarContoller.UpdateValue(health / (float) MaxHealth);
 
             base.Update();

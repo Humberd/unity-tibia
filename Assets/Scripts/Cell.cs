@@ -17,8 +17,10 @@ public class Cell : MonoBehaviour
 
     private void Update()
     {
-        transform.localPosition = new Vector3(coords.x * MyGrid.Instance.cellSize + MyGrid.Instance.cellSize / 2,
-            coords.y * MyGrid.Instance.cellSize + MyGrid.Instance.cellSize / 2);
+        transform.localPosition = new Vector3(
+            coords.x * MyGrid.Instance.cellSize + MyGrid.Instance.cellSize / 2,
+            coords.y * MyGrid.Instance.cellSize + MyGrid.Instance.cellSize / 2
+        );
     }
 
     private void OnMouseUp()

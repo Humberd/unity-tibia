@@ -20,9 +20,21 @@ namespace UI.Bar
             barImage.fillAmount = percent;
         }
 
-        public int GetWidth()
+        public void UpdatePosition()
         {
-            return (int) _rectTransform.rect.width;
+            if (_rectTransform == null)
+            {
+                Invoke("_updatePositionInternal", 0f);
+                return;
+            }
+
+            _updatePositionInternal();
+        }
+
+        private void _updatePositionInternal()
+        {
+            transform.localPosition = new Vector2(0, (MyGrid.Instance.cellSize / 2f) + (_rectTransform.rect.height *2 / 2f));
+
         }
     }
 }
