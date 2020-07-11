@@ -28,10 +28,7 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
         transform.localPosition = BaseLocalPosition + LocalPositionOffset;
     }
 
-    protected virtual Sprite GetCurrentSprite()
-    {
-        return _resource.sprite;
-    }
+    protected abstract Sprite GetCurrentSprite();
 
     public void DestroyContent()
     {

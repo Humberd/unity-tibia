@@ -74,7 +74,8 @@ public class Cell : MonoBehaviour
 
     public void AddItem(string itemName)
     {
-        var item = Resources.Load<ItemResource>($"Items/{itemName}");
+        var item = Resources.Load<ItemResource>($"Definitions/Items/{itemName}");
+        item.LoadSprites();
         var cellItemObject = new GameObject(item.name);
         cellItemObject.transform.SetParent(transform);
         var itemController = cellItemObject.AddComponent<ItemController>();
@@ -86,7 +87,8 @@ public class Cell : MonoBehaviour
 
     public void AddTerrain(string terrainName)
     {
-        var terrain = Resources.Load<TerrainResource>($"Terrains/{terrainName}");
+        var terrain = Resources.Load<TerrainResource>($"Definitions/Terrains/{terrainName}");
+        terrain.LoadSprites();
         var cellItemObject = new GameObject(terrain.name);
         cellItemObject.transform.SetParent(transform);
         var terrainController = cellItemObject.AddComponent<TerrainController>();
@@ -98,7 +100,8 @@ public class Cell : MonoBehaviour
 
     public void AddPlayer(string creatureName, bool isRoot)
     {
-        var creature = Resources.Load<CreatureResource>($"Creatures/{creatureName}");
+        var creature = Resources.Load<CreatureResource>($"Definitions/Creatures/{creatureName}");
+        creature.LoadSprites();
         var cellItemObject = new GameObject(creature.name);
         cellItemObject.transform.SetParent(transform);
         var playerController = cellItemObject.AddComponent<PlayerController>();
@@ -115,7 +118,8 @@ public class Cell : MonoBehaviour
 
     public void AddMonster(string creatureName)
     {
-        var creature = Resources.Load<CreatureResource>($"Creatures/{creatureName}");
+        var creature = Resources.Load<CreatureResource>($"Definitions/Creatures/{creatureName}");
+        creature.LoadSprites();
         var cellItemObject = new GameObject(creature.name);
         cellItemObject.transform.SetParent(transform);
         var creatureController = cellItemObject.AddComponent<MonsterController>();

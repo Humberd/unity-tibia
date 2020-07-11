@@ -28,12 +28,13 @@ public class MyGrid : MonoBehaviour
             cell.AddTerrain("Dirt");
         }
 
-        cells[1, 1].AddItem("Great Mana Potion");
-        cells[1, 1].AddItem("Mana Potion");
+        cells[1, 1].AddItem("Magic Longsword");
+        cells[1, 1].AddItem("War Hammer");
 
-        cells[1, 2].AddItem("Mana Potion");
-        cells[3, 2].AddPlayer("Ferumbras", true);
-        cells[4, 5].AddMonster("Ferumbras");
+        cells[1, 2].AddItem("Fire Sword");
+        cells[3, 6].AddItem("Soft Boots");
+        cells[3, 2].AddPlayer("Cyclops", true);
+        cells[4, 5].AddMonster("Cyclops");
     }
 
     private void OnDestroy()

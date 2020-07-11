@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163446491d5f4ef78c7aa723c4baba64, type: 3}
+  m_Name: Cyclops
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 6708740198528668497, guid: 437ba1efd8b30f74eaac426acf96c35e, type: 3}
+  scale: 2
+  idle: {fileID: 2800000, guid: c5599f13be84323448c021c899f5558a, type: 3}
+  walking: {fileID: 2800000, guid: a36edce5d4c23cd41ac9270e10e3954e, type: 3}
+  movementSpeed: 1
+  idleSprites: []
+  walkingSprites: []
