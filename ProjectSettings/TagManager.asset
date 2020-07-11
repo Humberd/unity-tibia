@@ -50,3 +50,6 @@ TagManager:
   - name: Creatures
     uniqueID: 1955900185
     locked: 0
+  - name: HUD
+    uniqueID: 898197181
+    locked: 0

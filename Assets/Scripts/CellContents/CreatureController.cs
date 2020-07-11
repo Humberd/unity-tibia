@@ -1,17 +1,31 @@
 ﻿using System;
 using Asserts;
 using ResourceTypes;
+using UI.Bar;
 using UnityEngine;
 
 namespace CellContents
 {
     public abstract class CreatureController : CellContent<CreatureResource>
     {
+        public int health;
+        public int MaxHealth => GetResource().maxHealth;
         public bool IsMoving { get; set; }
         private float _movingProgressWithSpeed;
-        private Sprite _currentSprite;
         private Vector2 _startAnimationOffset;
-        protected MoveDirection _currentMoveDirection;
+        protected MoveDirection CurrentMoveDirection;
+        private BarController _healthBarContoller;
+
+        protected override void Start()
+        {
+            base.Start();
+            health = MaxHealth / 2;
+
+            var barPrefab = Resources.Load<GameObject>("UI/Bar");
+            _healthBarContoller = Instantiate(barPrefab, transform).GetComponent<BarController>();
+
+            SpriteRenderingController.UpdateSprite(GetResource().idleAnimations.Down);
+        }
 
         protected override void Update()
         {
@@ -30,79 +44,75 @@ namespace CellContents
                 UpdateSprite();
             }
 
+            _healthBarContoller.gameObject.transform.localPosition = -BaseLocalPosition/2;
+            _healthBarContoller.UpdateValue(health / (float) MaxHealth);
+
             base.Update();
-        }
-
-        public void OnCellMoveInitiated(Cell source, Cell target)
-        {
-        }
-
-        protected override Sprite GetCurrentSprite()
-        {
-            if (_currentSprite == null)
-            {
-                return GetResource().idleAnimations.Down;
-            }
-
-            return _currentSprite;
         }
 
         public void UpdateSprite()
         {
-            var direction = _currentMoveDirection;
+            Sprite currentSprite;
+            var direction = CurrentMoveDirection;
             switch (direction)
             {
                 case MoveDirection.Up:
                     if (IsMoving)
                     {
-                        var spriteIndex = Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Up.Length);
-                        _currentSprite = GetResource().walkAnimations.Up[(int) spriteIndex];
+                        var spriteIndex =
+                            Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Up.Length);
+                        currentSprite = GetResource().walkAnimations.Up[(int) spriteIndex];
                     }
                     else
                     {
-                        _currentSprite = GetResource().idleAnimations.Up;
+                        currentSprite = GetResource().idleAnimations.Up;
                     }
 
                     break;
                 case MoveDirection.Down:
                     if (IsMoving)
                     {
-                        var spriteIndex = Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Down.Length);
-                        _currentSprite = GetResource().walkAnimations.Down[(int) spriteIndex];
+                        var spriteIndex =
+                            Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Down.Length);
+                        currentSprite = GetResource().walkAnimations.Down[(int) spriteIndex];
                     }
                     else
                     {
-                        _currentSprite = GetResource().idleAnimations.Down;
+                        currentSprite = GetResource().idleAnimations.Down;
                     }
 
                     break;
                 case MoveDirection.Right:
                     if (IsMoving)
                     {
-                        var spriteIndex = Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Right.Length);
-                        _currentSprite = GetResource().walkAnimations.Right[(int) spriteIndex];
+                        var spriteIndex =
+                            Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Right.Length);
+                        currentSprite = GetResource().walkAnimations.Right[(int) spriteIndex];
                     }
                     else
                     {
-                        _currentSprite = GetResource().idleAnimations.Right;
+                        currentSprite = GetResource().idleAnimations.Right;
                     }
 
                     break;
                 case MoveDirection.Left:
                     if (IsMoving)
                     {
-                        var spriteIndex = Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Left.Length);
-                        _currentSprite = GetResource().walkAnimations.Left[(int) spriteIndex];
+                        var spriteIndex =
+                            Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Left.Length);
+                        currentSprite = GetResource().walkAnimations.Left[(int) spriteIndex];
                     }
                     else
                     {
-                        _currentSprite = GetResource().idleAnimations.Left;
+                        currentSprite = GetResource().idleAnimations.Left;
                     }
 
                     break;
                 default:
                     throw new NotReached();
             }
+
+            SpriteRenderingController.UpdateSprite(currentSprite);
         }
 
         public void Move(MoveDirection direction)
@@ -146,7 +156,7 @@ namespace CellContents
                 return;
             }
 
-            _currentMoveDirection = direction;
+            CurrentMoveDirection = direction;
             _startAnimationOffset = new Vector3(-directionCoords.x, -directionCoords.y);
             IsMoving = true;
         }

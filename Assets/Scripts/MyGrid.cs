@@ -32,7 +32,7 @@ public class MyGrid : MonoBehaviour
         cells[1, 1].AddItem("War Hammer");
 
         cells[1, 2].AddItem("Fire Sword");
-        cells[3, 6].AddItem("Soft Boots");
+        cells[2, 6].AddItem("Soft Boots");
         cells[3, 2].AddPlayer("Demon", true);
         cells[4, 5].AddMonster("Cyclops");
         cells[5, 5].AddMonster("Minotaur");
@@ -102,7 +102,6 @@ public class MyGrid : MonoBehaviour
         creatureController.gameObject.transform.SetParent(targetCell.transform);
         targetCell.creatures.Push(creatureController);
         creatureController.ParentCell = targetCell;
-        creatureController.OnCellMoveInitiated(sourceCell, targetCell);
         creatureController.IsMoving = true;
         sourceCell.UpdateSortingOrder();
         targetCell.UpdateSortingOrder();

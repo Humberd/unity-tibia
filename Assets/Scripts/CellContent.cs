@@ -1,34 +1,37 @@
-﻿using System;
-using ResourceTypes;
+﻿using ResourceTypes;
+using Sprites;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
 public abstract class CellContent<TResourceType> : MonoBehaviour where TResourceType : Resource
 {
-    protected SpriteRenderer SpriteRenderer;
+    protected SpriteRenderingController SpriteRenderingController;
     private TResourceType _resource;
-    private int _sortOrder;
     public Cell ParentCell { get; set; }
     public Vector3 BaseLocalPosition;
     public Vector3 LocalPositionOffset;
+    private int delayedSortOrder;
 
     protected virtual void Start()
     {
-        SpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        var spriteRendererObject = new GameObject("SpriteRenderingControllerObject");
+        spriteRendererObject.transform.SetParent(transform);
+        SpriteRenderingController = spriteRendererObject.AddComponent<SpriteRenderingController>();
+
+        if (delayedSortOrder != 0)
+        {
+            SpriteRenderingController.UpdateSortOrder(delayedSortOrder);
+        }
+
+        SpriteRenderingController.UpdateLayerName(_resource.GetLayerName());
     }
 
     protected virtual void Update()
     {
-        SpriteRenderer.sortingOrder = _sortOrder;
-        SpriteRenderer.sprite = GetCurrentSprite();
-        SpriteRenderer.sortingLayerName = _resource.GetLayerName();
         transform.localScale = new Vector2(_resource.scale, _resource.scale);
         float positionOffset = (_resource.scale - 1) / (float) 2;
         BaseLocalPosition = new Vector3(-positionOffset, positionOffset);
         transform.localPosition = BaseLocalPosition + LocalPositionOffset;
     }
-
-    protected abstract Sprite GetCurrentSprite();
 
     public void DestroyContent()
     {
@@ -47,6 +50,10 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
 
     public void SetOrder(int order)
     {
-        _sortOrder = order;
+        if (SpriteRenderingController)
+        {
+            SpriteRenderingController.UpdateSortOrder(order);
+
+        }
     }
 }

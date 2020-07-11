@@ -5,15 +5,16 @@ namespace CellContents
 {
     public class TerrainController : CellContent<TerrainResource>
     {
-        private Sprite _randomSprite;
-        protected override Sprite GetCurrentSprite()
+        protected override void Start()
         {
-            if (!_randomSprite)
-            {
-                _randomSprite = GetResource().randomTextures[Random.Range(0, GetResource().randomTextures.Length - 1)];
-            }
-
-            return _randomSprite;
+            base.Start();
+            SpriteRenderingController.UpdateSprite(RandomSprite());
         }
+
+        private Sprite RandomSprite()
+        {
+            return GetResource().randomTextures[Random.Range(0, GetResource().randomTextures.Length - 1)];
+        }
+
     }
 }

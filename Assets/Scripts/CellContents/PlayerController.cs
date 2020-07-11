@@ -21,7 +21,7 @@ namespace CellContents
             {
                 if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
                 {
-                    _currentMoveDirection = MoveDirection.Up;
+                    CurrentMoveDirection = MoveDirection.Up;
                     UpdateSprite();
                     return;
                 }
@@ -32,7 +32,7 @@ namespace CellContents
             {
                 if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
                 {
-                    _currentMoveDirection = MoveDirection.Down;
+                    CurrentMoveDirection = MoveDirection.Down;
                     UpdateSprite();
                     return;
                 }
@@ -44,7 +44,7 @@ namespace CellContents
             {
                 if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
                 {
-                    _currentMoveDirection = MoveDirection.Left;
+                    CurrentMoveDirection = MoveDirection.Left;
                     UpdateSprite();
                     return;
                 }
@@ -55,7 +55,7 @@ namespace CellContents
             {
                 if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
                 {
-                    _currentMoveDirection = MoveDirection.Right;
+                    CurrentMoveDirection = MoveDirection.Right;
                     UpdateSprite();
                     return;
                 }

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 163446491d5f4ef78c7aa723c4baba64, type: 3}
-  m_Name: Cyclops
+  m_Name: Minotaur
   m_EditorClassIdentifier: 
-  scale: 2
-  idle: {fileID: 2800000, guid: c5599f13be84323448c021c899f5558a, type: 3}
-  walking: {fileID: 2800000, guid: a36edce5d4c23cd41ac9270e10e3954e, type: 3}
-  movementSpeed: 3.09
+  scale: 1
+  idle: {fileID: 2800000, guid: 113c77cd57796894799b9627eb284b96, type: 3}
+  walking: {fileID: 2800000, guid: f617bf1a362f2fa4a8def52339c20703, type: 3}
+  movementSpeed: 1

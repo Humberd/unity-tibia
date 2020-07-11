@@ -5,7 +5,7 @@ namespace CellContents
 {
     public class ItemController : CellContent<ItemResource>
     {
-        private int currentSpriteIndex = 0;
+        private int _currentSpriteIndex = 0;
 
         protected override void Start()
         {
@@ -14,16 +14,16 @@ namespace CellContents
             {
                 InvokeRepeating("UpdateAnimatedSprite", 0f, 1f / GetResource().sprites.Length);
             }
+            else
+            {
+                SpriteRenderingController.UpdateSprite(GetResource().sprites[0]);
+            }
         }
 
         void UpdateAnimatedSprite()
         {
-            currentSpriteIndex = (currentSpriteIndex + 1) % GetResource().sprites.Length;
-        }
-
-        protected override Sprite GetCurrentSprite()
-        {
-            return GetResource().sprites[currentSpriteIndex];
+            _currentSpriteIndex = (_currentSpriteIndex + 1) % GetResource().sprites.Length;
+            SpriteRenderingController.UpdateSprite(GetResource().sprites[_currentSpriteIndex]);
         }
     }
 }
