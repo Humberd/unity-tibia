@@ -4,6 +4,7 @@ using CellContents;
 using ResourceTypes;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class Cell : MonoBehaviour
@@ -12,6 +13,7 @@ public class Cell : MonoBehaviour
     public Stack<TerrainController> terrains = new Stack<TerrainController>();
     public Stack<ItemController> items = new Stack<ItemController>();
     public Stack<CreatureController> creatures = new Stack<CreatureController>();
+    public SortingGroup sortingGroup;
 
     private void Update()
     {
@@ -51,24 +53,25 @@ public class Cell : MonoBehaviour
         }
     }
 
-    private void UpdateSortingOrder()
+    public void UpdateSortingOrder()
     {
+        var cellBaseOrder = coords.x + (MyGrid.Instance.height - coords.y);
         int index = terrains.Count;
         foreach (var terrain in terrains)
         {
-            terrain.SetOrder(index--);
+            terrain.SetOrder(Int32.Parse($"{cellBaseOrder}{index--}"));
         }
 
         index = items.Count;
         foreach (var item in items)
         {
-            item.SetOrder(index--);
+            item.SetOrder(Int32.Parse($"{cellBaseOrder}{index--}"));
         }
 
         index = creatures.Count;
         foreach (var creature in creatures)
         {
-            creature.SetOrder(index--);
+            creature.SetOrder(Int32.Parse($"{cellBaseOrder}{index--}"));
         }
     }
 

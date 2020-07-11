@@ -104,6 +104,8 @@ public class MyGrid : MonoBehaviour
         creatureController.ParentCell = targetCell;
         creatureController.OnCellMoveInitiated(sourceCell, targetCell);
         creatureController.IsMoving = true;
+        sourceCell.UpdateSortingOrder();
+        targetCell.UpdateSortingOrder();
 
         return true;
     }
