@@ -7,9 +7,9 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
     protected SpriteRenderingController SpriteRenderingController;
     private TResourceType _resource;
     public Cell ParentCell { get; set; }
-    public Vector3 BaseLocalPosition;
-    public Vector3 LocalPositionOffset;
-    private int delayedSortOrder;
+    public Vector3 baseLocalPosition;
+    public Vector3 animationPositionOffset;
+    private int _lazySortOrder;
 
     protected virtual void Start()
     {
@@ -17,25 +17,16 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
         spriteRendererObject.transform.SetParent(transform);
         SpriteRenderingController = spriteRendererObject.AddComponent<SpriteRenderingController>();
 
-        if (delayedSortOrder != 0)
-        {
-            SpriteRenderingController.UpdateSortOrder(delayedSortOrder);
-        }
-
         SpriteRenderingController.UpdateLayerName(_resource.GetLayerName());
+        SpriteRenderingController.UpdateScale(_resource.scale);
+        SpriteRenderingController.UpdateSortOrder(_lazySortOrder);
+        float positionOffset = (_resource.scale - 1) / (float) 2;
+        baseLocalPosition = new Vector3(-positionOffset, positionOffset);
     }
 
     protected virtual void Update()
     {
-        transform.localScale = new Vector2(_resource.scale, _resource.scale);
-        float positionOffset = (_resource.scale - 1) / (float) 2;
-        BaseLocalPosition = new Vector3(-positionOffset, positionOffset);
-        transform.localPosition = BaseLocalPosition + LocalPositionOffset;
-    }
-
-    public void DestroyContent()
-    {
-        Destroy(gameObject);
+        transform.localPosition = baseLocalPosition + animationPositionOffset;
     }
 
     public void SetResource(TResourceType resource)
@@ -50,10 +41,11 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
 
     public void SetOrder(int order)
     {
-        if (SpriteRenderingController)
+        if (!SpriteRenderingController)
         {
-            SpriteRenderingController.UpdateSortOrder(order);
-
+            _lazySortOrder = order;
+            return;
         }
+        SpriteRenderingController.UpdateSortOrder(order);
     }
 }

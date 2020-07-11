@@ -33,7 +33,7 @@ namespace CellContents
             {
                 var step = GetResource().movementSpeed * Time.deltaTime;
                 _movingProgressWithSpeed += step;
-                LocalPositionOffset = Vector2.Lerp(_startAnimationOffset, Vector2.zero, _movingProgressWithSpeed);
+                animationPositionOffset = Vector2.Lerp(_startAnimationOffset, Vector2.zero, _movingProgressWithSpeed);
                 if (_movingProgressWithSpeed >= 1)
                 {
                     Debug.Log("stop moving");
@@ -44,7 +44,7 @@ namespace CellContents
                 UpdateSprite();
             }
 
-            _healthBarContoller.gameObject.transform.localPosition = -BaseLocalPosition/2;
+            _healthBarContoller.gameObject.transform.localPosition = -baseLocalPosition/2;
             _healthBarContoller.UpdateValue(health / (float) MaxHealth);
 
             base.Update();

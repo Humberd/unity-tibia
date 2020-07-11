@@ -37,5 +37,10 @@ namespace Sprites
         {
             _layerName = layerName;
         }
+
+        public void UpdateScale(float scale)
+        {
+            transform.localScale = new Vector2(scale, scale);
+        }
     }
 }
