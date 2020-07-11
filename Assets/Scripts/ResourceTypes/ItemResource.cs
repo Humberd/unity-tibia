@@ -8,11 +8,11 @@ namespace ResourceTypes
         public Texture2D texture;
         public bool isDraggable;
 
-        [HideInInspector] public Sprite sprite;
+        [HideInInspector] public Sprite[] sprites;
 
         public override void LoadSprites()
         {
-            sprite = Resources.Load<Sprite>($"Sprites/Items/{texture.name}");
+            sprites = Resources.LoadAll<Sprite>($"Sprites/Items/{texture.name}");
         }
 
         public override string GetLayerName()

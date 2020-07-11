@@ -12,7 +12,7 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
     public Vector3 BaseLocalPosition;
     public Vector3 LocalPositionOffset;
 
-    private void Start()
+    protected virtual void Start()
     {
         SpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
