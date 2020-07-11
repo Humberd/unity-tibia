@@ -1,4 +1,5 @@
-﻿using Asserts;
+﻿using System;
+using Asserts;
 using ResourceTypes;
 using UnityEngine;
 
@@ -7,31 +8,33 @@ namespace CellContents
     public abstract class CreatureController : CellContent<CreatureResource>
     {
         public bool IsMoving { get; set; }
+        private float _movingProgressWithSpeed;
         private Sprite _currentSprite;
+        private Vector2 _startAnimationOffset;
+        protected MoveDirection _currentMoveDirection;
 
         protected override void Update()
         {
             if (IsMoving)
             {
-                CalculateMoveAnimationOffset();
-                if (LocalPositionOffset == Vector3.zero)
+                var step = GetResource().movementSpeed * Time.deltaTime;
+                _movingProgressWithSpeed += step;
+                LocalPositionOffset = Vector2.Lerp(_startAnimationOffset, Vector2.zero, _movingProgressWithSpeed);
+                if (_movingProgressWithSpeed >= 1)
                 {
+                    Debug.Log("stop moving");
                     IsMoving = false;
+                    _movingProgressWithSpeed = 0;
                 }
+
+                UpdateSprite();
             }
 
             base.Update();
         }
 
-        private void  CalculateMoveAnimationOffset()
-        {
-            var step = GetResource().movementSpeed * Time.deltaTime;
-            LocalPositionOffset = Vector2.MoveTowards(LocalPositionOffset, Vector2.zero, step);
-        }
-
         public void OnCellMoveInitiated(Cell source, Cell target)
         {
-            // CalculateMoveAnimationOffset();
         }
 
         protected override Sprite GetCurrentSprite()
@@ -44,21 +47,59 @@ namespace CellContents
             return _currentSprite;
         }
 
-        public void UpdateSprite(MoveDirection direction)
+        public void UpdateSprite()
         {
+            var direction = _currentMoveDirection;
             switch (direction)
             {
                 case MoveDirection.Up:
-                    _currentSprite = GetResource().idleAnimations.Up;
+                    if (IsMoving)
+                    {
+                        var spriteIndex = Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Up.Length);
+                        Debug.Log(spriteIndex);
+                        _currentSprite = GetResource().walkAnimations.Up[(int) spriteIndex];
+                    }
+                    else
+                    {
+                        _currentSprite = GetResource().idleAnimations.Up;
+                    }
+
                     break;
                 case MoveDirection.Down:
-                    _currentSprite = GetResource().idleAnimations.Down;
+                    if (IsMoving)
+                    {
+                        var spriteIndex = Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Down.Length);
+                        _currentSprite = GetResource().walkAnimations.Down[(int) spriteIndex];
+                    }
+                    else
+                    {
+                        _currentSprite = GetResource().idleAnimations.Down;
+                    }
+
                     break;
                 case MoveDirection.Right:
-                    _currentSprite = GetResource().idleAnimations.Right;
+                    if (IsMoving)
+                    {
+                        var spriteIndex = Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Right.Length);
+                        _currentSprite = GetResource().walkAnimations.Right[(int) spriteIndex];
+                    }
+                    else
+                    {
+                        _currentSprite = GetResource().idleAnimations.Right;
+                    }
+
                     break;
                 case MoveDirection.Left:
-                    _currentSprite = GetResource().idleAnimations.Left;
+                    if (IsMoving)
+                    {
+                        var spriteIndex = Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Left.Length);
+                        _currentSprite = GetResource().walkAnimations.Left[(int) spriteIndex];
+                    }
+                    else
+                    {
+                        _currentSprite = GetResource().idleAnimations.Left;
+                    }
+
                     break;
                 default:
                     throw new NotReached();
@@ -71,8 +112,6 @@ namespace CellContents
             {
                 return;
             }
-
-            UpdateSprite(direction);
 
             Vector2Int directionCoords;
             switch (direction)
@@ -108,10 +147,11 @@ namespace CellContents
                 return;
             }
 
-            LocalPositionOffset = new Vector3(-directionCoords.x, -directionCoords.y);
-
+            _currentMoveDirection = direction;
+            _startAnimationOffset = new Vector3(-directionCoords.x, -directionCoords.y);
             IsMoving = true;
         }
+
         public enum MoveDirection
         {
             Up,

@@ -33,8 +33,9 @@ public class MyGrid : MonoBehaviour
 
         cells[1, 2].AddItem("Fire Sword");
         cells[3, 6].AddItem("Soft Boots");
-        cells[3, 2].AddPlayer("Cyclops", true);
+        cells[3, 2].AddPlayer("Demon", true);
         cells[4, 5].AddMonster("Cyclops");
+        cells[5, 5].AddMonster("Minotaur");
     }
 
     private void OnDestroy()

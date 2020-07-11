@@ -30,8 +30,8 @@ namespace ResourceTypes
 
             for (var i = 0; i < walkingSprites.Length; i++)
             {
-                var whole = i / walkingSprites.Length;
-                var remainder = i % walkingSprites.Length;
+                var whole = i / 4;
+                var remainder = i % 4;
                 if (remainder == 0)
                 {
                     walkAnimations.Up[whole] = walkingSprites[i];
