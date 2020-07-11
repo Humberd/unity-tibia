@@ -1,8 +1,4 @@
-﻿using System;
-using Asserts;
-using Sprites;
-using UnityEngine;
-using UnityEngine.U2D;
+﻿using UnityEngine;
 
 namespace ResourceTypes
 {
@@ -13,18 +9,67 @@ namespace ResourceTypes
         public Texture2D walking;
         public float movementSpeed = 1.0f;
 
-        [HideInInspector] public Sprite[] idleSprites;
-        [HideInInspector] public Sprite[] walkingSprites;
+        public WalkAnimations walkAnimations;
+        public IdleAnimations idleAnimations;
 
         public override void LoadSprites()
         {
-            idleSprites = Resources.LoadAll<Sprite>($"Sprites/Creatures/{idle.name}");
-            walkingSprites = Resources.LoadAll<Sprite>($"Sprites/Creatures/{walking.name}");
+            var idleSprites = Resources.LoadAll<Sprite>($"Sprites/Creatures/{idle.name}");
+            idleAnimations.Up = idleSprites[0];
+            idleAnimations.Right = idleSprites[1];
+            idleAnimations.Down = idleSprites[2];
+            idleAnimations.Left = idleSprites[3];
+
+            var walkingSprites = Resources.LoadAll<Sprite>($"Sprites/Creatures/{walking.name}");
+
+            var animationsCount = walkingSprites.Length / 4;
+            walkAnimations.Up = new Sprite[animationsCount];
+            walkAnimations.Right = new Sprite[animationsCount];
+            walkAnimations.Down = new Sprite[animationsCount];
+            walkAnimations.Left = new Sprite[animationsCount];
+
+            for (var i = 0; i < walkingSprites.Length; i++)
+            {
+                var whole = i / walkingSprites.Length;
+                var remainder = i % walkingSprites.Length;
+                if (remainder == 0)
+                {
+                    walkAnimations.Up[whole] = walkingSprites[i];
+                }
+                else if (remainder == 1)
+                {
+                    walkAnimations.Right[whole] = walkingSprites[i];
+                }
+                else if (remainder == 2)
+                {
+                    walkAnimations.Down[whole] = walkingSprites[i];
+                }
+                else if (remainder == 3)
+                {
+                    walkAnimations.Left[whole] = walkingSprites[i];
+                }
+            }
         }
 
         public override string GetLayerName()
         {
             return "Creatures";
+        }
+
+        public struct WalkAnimations
+        {
+            public Sprite[] Up;
+            public Sprite[] Right;
+            public Sprite[] Down;
+            public Sprite[] Left;
+        }
+
+        public struct IdleAnimations
+        {
+            public Sprite Up;
+            public Sprite Right;
+            public Sprite Down;
+            public Sprite Left;
         }
     }
 }

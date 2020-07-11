@@ -38,7 +38,7 @@ namespace CellContents
         {
             if (_currentSprite == null)
             {
-                return GetResource().idleSprites[2];
+                return GetResource().idleAnimations.Down;
             }
 
             return _currentSprite;
@@ -49,16 +49,16 @@ namespace CellContents
             switch (direction)
             {
                 case MoveDirection.Up:
-                    _currentSprite = GetResource().idleSprites[0];
+                    _currentSprite = GetResource().idleAnimations.Up;
                     break;
                 case MoveDirection.Down:
-                    _currentSprite = GetResource().idleSprites[2];
+                    _currentSprite = GetResource().idleAnimations.Down;
                     break;
                 case MoveDirection.Right:
-                    _currentSprite = GetResource().idleSprites[1];
+                    _currentSprite = GetResource().idleAnimations.Right;
                     break;
                 case MoveDirection.Left:
-                    _currentSprite = GetResource().idleSprites[3];
+                    _currentSprite = GetResource().idleAnimations.Left;
                     break;
                 default:
                     throw new NotReached();
