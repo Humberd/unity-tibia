@@ -16,3 +16,4 @@ MonoBehaviour:
   idle: {fileID: 2800000, guid: 113c77cd57796894799b9627eb284b96, type: 3}
   walking: {fileID: 2800000, guid: f617bf1a362f2fa4a8def52339c20703, type: 3}
   movementSpeed: 1
+  maxHealth: 150

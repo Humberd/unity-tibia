@@ -14,7 +14,7 @@ namespace CellContents
         private float _movingProgressWithSpeed;
         private Vector2 _startAnimationOffset;
         protected MoveDirection CurrentMoveDirection;
-        private BarController _healthBarContoller;
+        private BarController _healthBarController;
 
         protected override void Start()
         {
@@ -22,8 +22,9 @@ namespace CellContents
             health = MaxHealth / 2;
 
             var barPrefab = Resources.Load<GameObject>("UI/Bar");
-            _healthBarContoller = Instantiate(barPrefab, transform).GetComponent<BarController>();
-            _healthBarContoller.UpdatePosition();
+            _healthBarController = Instantiate(barPrefab, transform).GetComponent<BarController>();
+            _healthBarController.UpdatePosition();
+            _healthBarController.UpdateName(GetResource().name);
 
             SpriteRenderingController.UpdateSprite(GetResource().idleAnimations.Down);
         }
@@ -46,7 +47,7 @@ namespace CellContents
             }
 
             // _healthBarContoller.gameObject.transform.localPosition = -baseLocalPosition/2;
-            _healthBarContoller.UpdateValue(health / (float) MaxHealth);
+            _healthBarController.UpdateHealth(health / (float) MaxHealth);
 
             base.Update();
         }
