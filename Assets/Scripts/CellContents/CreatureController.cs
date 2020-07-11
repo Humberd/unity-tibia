@@ -56,7 +56,6 @@ namespace CellContents
                     if (IsMoving)
                     {
                         var spriteIndex = Mathf.Floor(_movingProgressWithSpeed * GetResource().walkAnimations.Up.Length);
-                        Debug.Log(spriteIndex);
                         _currentSprite = GetResource().walkAnimations.Up[(int) spriteIndex];
                     }
                     else
