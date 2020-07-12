@@ -66,7 +66,8 @@ namespace CellContents
         {
             var myPosition = ParentCell.transform.position;
             var playerPosition = MyGrid.Instance.player.ParentCell.transform.position;
-            _seeker.StartPath(myPosition, playerPosition, delegate(Path path)
+            var queryPath = ABPath.Construct(myPosition, playerPosition);
+            _seeker.StartPath(queryPath, delegate(Path path)
             {
                 if (path.error)
                 {
