@@ -86,8 +86,8 @@ public class Cell : MonoBehaviour
             allTerrainsWalkable &= terrain.GetResource().isWalkable;
         }
 
-        // bool noCreaturesInCell = creatures.Count == 0;
-        bool noCreaturesInCell = true;
+        bool noCreaturesInCell = creatures.Count == 0;
+        // bool noCreaturesInCell = true;
 
         AstarPath.active.AddWorkItem(ctx =>
         {

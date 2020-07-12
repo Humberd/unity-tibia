@@ -16,8 +16,7 @@ namespace CellContents
         {
             base.Start();
             _seeker = GetComponent<Seeker>();
-            // _seeker.startEndModifier.exactStartPoint = StartEndModifier.Exactness.NodeConnection;
-            // _seeker.startEndModifier.exactEndPoint = StartEndModifier.Exactness.NodeConnection;
+            _seeker.graphMask = 1;
 
             InvokeRepeating("findPath", 0f, 1f);
         }
@@ -25,6 +24,11 @@ namespace CellContents
         protected override void Update()
         {
             base.Update();
+            // UpdateAIMovement();
+        }
+
+        private void UpdateAIMovement()
+        {
             if (!IsMoving && _currentNavigationPath != null)
             {
                 var isDoneNavigation = _currentNavigationIndex >= _currentNavigationPath.path.Count - 1;
@@ -57,7 +61,7 @@ namespace CellContents
                     {
                         throw new NotReached();
                     }
-                    Debug.Log($"{nextNavigationCoords}, {currentCoords}, {normalized}");
+                    // Debug.Log($"{nextNavigationCoords}, {currentCoords}, {normalized}");
                 }
             }
         }

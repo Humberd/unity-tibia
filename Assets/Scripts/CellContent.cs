@@ -17,6 +17,7 @@ public abstract class CellContent<TResourceType> : MonoBehaviour where TResource
         SpriteRenderingController = spriteRendererObject.AddComponent<SpriteRenderingController>();
 
         SpriteRenderingController.UpdateLayerName(_resource.GetLayerName());
+        gameObject.layer = LayerMask.NameToLayer(_resource.GetLayerName());
         SpriteRenderingController.UpdateSortOrder(_lazySortOrder);
         SpriteRenderingController.SetupTransforms(_resource.scale);
     }

@@ -40,7 +40,7 @@ public class MyGrid : MonoBehaviour
         cells[1, 2].AddItem("Fire Sword");
         cells[2, 6].AddItem("Soft Boots");
         cells[0, 0].AddPlayer("Demon", true);
-        // cells[4, 5].AddMonster("Cyclops");
+        // cells[4, 3].AddMonster("Cyclops");
         cells[5, 3].AddMonster("Minotaur");
     }
 
