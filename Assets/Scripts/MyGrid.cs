@@ -11,16 +11,14 @@ public class MyGrid : MonoBehaviour
     public int height;
     public float cellSize = 1f;
     public Cell[,] cells;
-    public float[,] navMesh;
     public GridGraph gridGraph;
 
     private void Start()
     {
         Instance = this;
-        SetupGridGraph();
+        SetupGridNavigationGraph();
 
         cells = new Cell[width, height];
-        navMesh = new float[width,height];
         for (var x = 0; x < cells.GetLength(0); x++)
         for (int y = 0; y < cells.GetLength(1); y++)
         {
@@ -28,8 +26,7 @@ public class MyGrid : MonoBehaviour
             cellGameObject.transform.SetParent(transform);
             cells[x, y] = cellGameObject.AddComponent<Cell>();
             cells[x, y].SetCoords(new Vector2Int(x, y));
-
-            navMesh[x, y] = 1;
+            cells[x, y].SetGridNode(gridGraph.nodes[x + y * width]);
         }
 
         foreach (var cell in cells)
@@ -52,14 +49,15 @@ public class MyGrid : MonoBehaviour
         Instance = null;
     }
 
-    private void SetupGridGraph()
+    private void SetupGridNavigationGraph()
     {
-        gridGraph = AstarPath.active.graphs[0] as GridGraph;
+        gridGraph = AstarPath.active.data.gridGraph;
         gridGraph.SetDimensions(width, height, cellSize);
         gridGraph.center = new Vector2(
             width * cellSize / 2,
-            height* cellSize / 2
+            height * cellSize / 2
         );
+        gridGraph.Scan();
     }
 
     private void OnDrawGizmos()
@@ -109,7 +107,7 @@ public class MyGrid : MonoBehaviour
             return false;
         }
 
-        if (targetCell.creatures.Count > 0)
+        if (targetCell.GetCreaturesCount() > 0)
         {
             Debug.Log("There is already some creature in the cell");
             return false;
@@ -117,15 +115,11 @@ public class MyGrid : MonoBehaviour
 
         var sourceCell = creatureController.ParentCell;
 
-        creatureController.ParentCell.creatures.Pop();
-        creatureController.gameObject.transform.SetParent(targetCell.transform);
-        targetCell.creatures.Push(creatureController);
-        creatureController.ParentCell = targetCell;
+        sourceCell.MoveCreatureFromThis(creatureController);
+        targetCell.MoveCreatureToThis(creatureController);
+
         creatureController.IsMoving = true;
-        sourceCell.UpdateSortingOrder();
-        targetCell.UpdateSortingOrder();
 
         return true;
     }
-
 }

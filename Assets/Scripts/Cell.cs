@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CellContents;
+using Pathfinding;
 using ResourceTypes;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -10,10 +11,11 @@ using UnityEngine.Rendering;
 public class Cell : MonoBehaviour
 {
     public Vector2Int coords;
-    public Stack<TerrainController> terrains = new Stack<TerrainController>();
-    public Stack<ItemController> items = new Stack<ItemController>();
-    public Stack<CreatureController> creatures = new Stack<CreatureController>();
+    private Stack<TerrainController> terrains = new Stack<TerrainController>();
+    private Stack<ItemController> items = new Stack<ItemController>();
+    private Stack<CreatureController> creatures = new Stack<CreatureController>();
     public SortingGroup sortingGroup;
+    private GridNode _gridNode;
 
     private void Update()
     {
@@ -144,8 +146,32 @@ public class Cell : MonoBehaviour
         return true;
     }
 
+    public void MoveCreatureToThis(CreatureController creatureController)
+    {
+        creatureController.gameObject.transform.SetParent(transform);
+        creatures.Push(creatureController);
+        creatureController.ParentCell = this;
+        UpdateSortingOrder();
+    }
+
+    public void MoveCreatureFromThis(CreatureController creatureController)
+    {
+        creatures.Pop();
+        UpdateSortingOrder();
+    }
+
+    public int GetCreaturesCount()
+    {
+        return creatures.Count;
+    }
+
     public void SetCoords(Vector2Int coords)
     {
         this.coords = coords;
+    }
+
+    public void SetGridNode(GridNode gridNode)
+    {
+        this._gridNode = gridNode;
     }
 }
