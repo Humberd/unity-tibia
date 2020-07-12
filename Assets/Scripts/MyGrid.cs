@@ -2,7 +2,6 @@
 using CellContents;
 using Pathfinding;
 using UnityEngine;
-using Object = System.Object;
 
 public class MyGrid : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class MyGrid : MonoBehaviour
     public float cellSize = 1f;
     public Cell[,] cells;
     public GridGraph gridGraph;
+    public PlayerController player;
 
     private void Start()
     {
@@ -39,9 +39,9 @@ public class MyGrid : MonoBehaviour
 
         cells[1, 2].AddItem("Fire Sword");
         cells[2, 6].AddItem("Soft Boots");
-        cells[3, 2].AddPlayer("Demon", true);
-        cells[4, 5].AddMonster("Cyclops");
-        cells[5, 5].AddMonster("Minotaur");
+        cells[0, 0].AddPlayer("Demon", true);
+        // cells[4, 5].AddMonster("Cyclops");
+        cells[5, 3].AddMonster("Minotaur");
     }
 
     private void OnDestroy()

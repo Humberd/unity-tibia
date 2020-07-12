@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using CellContents;
 using Pathfinding;
 using ResourceTypes;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -136,6 +135,7 @@ public class Cell : MonoBehaviour
         if (isRoot)
         {
             FindObjectOfType<CameraController>().player = playerController;
+            MyGrid.Instance.player = playerController;
         }
     }
 
@@ -192,5 +192,10 @@ public class Cell : MonoBehaviour
     {
         _gridNode = gridNode;
         UpdateNavigationNode();
+    }
+
+    public GridNode GetGridNode()
+    {
+        return _gridNode;
     }
 }
