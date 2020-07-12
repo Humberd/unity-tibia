@@ -79,6 +79,19 @@ public class Cell : MonoBehaviour
         }
     }
 
+    private void UpdateNavigationNode()
+    {
+        bool allTerrainsWalkable = true;
+        foreach (var terrain in terrains)
+        {
+            allTerrainsWalkable &= terrain.GetResource().isWalkable;
+        }
+
+        bool noCreaturesInCell = creatures.Count == 0;
+
+        _gridNode.Walkable = allTerrainsWalkable && noCreaturesInCell;
+    }
+
     public void AddItem(string itemName)
     {
         var item = Resources.Load<ItemResource>($"Definitions/Items/{itemName}");
@@ -90,6 +103,7 @@ public class Cell : MonoBehaviour
         items.Push(itemController);
         itemController.ParentCell = this;
         UpdateSortingOrder();
+        UpdateNavigationNode();
     }
 
     public void AddTerrain(string terrainName)
@@ -103,6 +117,7 @@ public class Cell : MonoBehaviour
         terrains.Push(terrainController);
         terrainController.ParentCell = this;
         UpdateSortingOrder();
+        UpdateNavigationNode();
     }
 
     public void AddPlayer(string creatureName, bool isRoot)
@@ -116,6 +131,7 @@ public class Cell : MonoBehaviour
         creatures.Push(playerController);
         playerController.ParentCell = this;
         UpdateSortingOrder();
+        UpdateNavigationNode();
 
         if (isRoot)
         {
@@ -134,16 +150,16 @@ public class Cell : MonoBehaviour
         creatures.Push(creatureController);
         creatureController.ParentCell = this;
         UpdateSortingOrder();
+        UpdateNavigationNode();
     }
 
-    public bool MoveItem(ItemController itemController)
+    public void MoveItem(ItemController itemController)
     {
         itemController.gameObject.transform.SetParent(transform, false);
         items.Push(itemController);
         itemController.ParentCell = this;
         UpdateSortingOrder();
-
-        return true;
+        UpdateNavigationNode();
     }
 
     public void MoveCreatureToThis(CreatureController creatureController)
@@ -152,12 +168,14 @@ public class Cell : MonoBehaviour
         creatures.Push(creatureController);
         creatureController.ParentCell = this;
         UpdateSortingOrder();
+        UpdateNavigationNode();
     }
 
     public void MoveCreatureFromThis(CreatureController creatureController)
     {
         creatures.Pop();
         UpdateSortingOrder();
+        UpdateNavigationNode();
     }
 
     public int GetCreaturesCount()
@@ -172,6 +190,7 @@ public class Cell : MonoBehaviour
 
     public void SetGridNode(GridNode gridNode)
     {
-        this._gridNode = gridNode;
+        _gridNode = gridNode;
+        UpdateNavigationNode();
     }
 }
