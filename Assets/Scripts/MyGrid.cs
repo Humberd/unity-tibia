@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CellContents;
 using Pathfinding;
 using UnityEngine;
@@ -41,7 +42,7 @@ public class MyGrid : MonoBehaviour
         cells[2, 6].AddItem("Soft Boots");
         cells[0, 0].AddPlayer("Demon", true);
         // cells[4, 3].AddMonster("Cyclops");
-        cells[5, 3].AddMonster("Minotaur");
+        cells[5, 3].AddMonster("Cyclops");
     }
 
     private void OnDestroy()
@@ -51,6 +52,7 @@ public class MyGrid : MonoBehaviour
 
     private void SetupGridNavigationGraph()
     {
+        AstarPath.active.logPathResults = PathLog.OnlyErrors;
         gridGraph = AstarPath.active.data.gridGraph;
         gridGraph.SetDimensions(width, height, cellSize);
         gridGraph.center = new Vector2(
@@ -121,5 +123,27 @@ public class MyGrid : MonoBehaviour
         creatureController.IsMoving = true;
 
         return true;
+    }
+
+    public List<Cell> GetNeighbourCellsOfRange(Cell startCell, int range)
+    {
+        var xLeftIndex = Mathf.Clamp(startCell.coords.x - range, 0, startCell.coords.x);
+        var xRightIndex = Mathf.Clamp(startCell.coords.x + range, startCell.coords.x, width - 1);
+        var yBottomIndex = Mathf.Clamp(startCell.coords.y - range, 0, startCell.coords.y);
+        var yTopIndex = Mathf.Clamp(startCell.coords.y + range, startCell.coords.y, height - 1);
+
+        var list = new List<Cell>();
+
+        for (int x = xLeftIndex; x <= xRightIndex; x++)
+        for (int y = yBottomIndex; y <= yTopIndex; y++)
+        {
+            if (x == startCell.coords.x && y == startCell.coords.y)
+            {
+                continue;
+            }
+            list.Add(cells[x, y]);
+        }
+
+        return list;
     }
 }

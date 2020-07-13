@@ -1,7 +1,7 @@
-﻿using System;
-using Asserts;
+﻿using Asserts;
 using ResourceTypes;
 using UI.Bar;
+using UI.CreatureBorder;
 using UnityEngine;
 
 namespace CellContents
@@ -15,6 +15,10 @@ namespace CellContents
         private Vector2 _startAnimationOffset;
         protected MoveDirection CurrentMoveDirection;
         private BarController _healthBarController;
+        private CreatureBorderController _creatureBorderController;
+
+        protected CreatureController AttackTargetCreature;
+        protected bool IsInAttackMode;
 
         protected override void Start()
         {
@@ -25,6 +29,10 @@ namespace CellContents
             _healthBarController = Instantiate(barPrefab, transform).GetComponent<BarController>();
             _healthBarController.UpdatePosition();
             _healthBarController.UpdateName(GetResource().name);
+
+            var borderPrefab = Resources.Load<GameObject>("UI/CreatureBorder");
+            _creatureBorderController = Instantiate(borderPrefab, transform).GetComponent<CreatureBorderController>();
+            _creatureBorderController.Hide();
 
             SpriteRenderingController.UpdateSprite(GetResource().idleAnimations.Down);
         }
@@ -38,7 +46,7 @@ namespace CellContents
                 animationPositionOffset = Vector2.Lerp(_startAnimationOffset, Vector2.zero, _movingProgressWithSpeed);
                 if (_movingProgressWithSpeed >= 1)
                 {
-                    Debug.Log("stop moving");
+                    // Debug.Log("stop moving");
                     IsMoving = false;
                     _movingProgressWithSpeed = 0;
                 }
@@ -161,6 +169,31 @@ namespace CellContents
             CurrentMoveDirection = direction;
             _startAnimationOffset = new Vector3(-directionCoords.x, -directionCoords.y);
             IsMoving = true;
+        }
+
+        public void TakeDamage(int damage)
+        {
+            health -= damage;
+        }
+
+        public void DealDamage(int damage, CreatureController attackedCreature)
+        {
+            attackedCreature.TakeDamage(damage);
+        }
+
+        protected void MarkCreatureAsTarget(CreatureController creatureController)
+        {
+            AttackTargetCreature = creatureController;
+            IsInAttackMode = true;
+            _creatureBorderController.Show();
+            _creatureBorderController.SetAttackMode();
+        }
+
+        protected void UnmarkCreatureAsTarget()
+        {
+            AttackTargetCreature = null;
+            IsInAttackMode = false;
+            _creatureBorderController.Hide();
         }
 
         public enum MoveDirection

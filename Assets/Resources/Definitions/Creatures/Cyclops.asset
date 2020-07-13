@@ -17,3 +17,4 @@ MonoBehaviour:
   walking: {fileID: 2800000, guid: a36edce5d4c23cd41ac9270e10e3954e, type: 3}
   movementSpeed: 1.5
   maxHealth: 450
+  attackRange: 2

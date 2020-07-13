@@ -1,4 +1,5 @@
-﻿using Asserts;
+﻿using System.Linq;
+using Asserts;
 using Pathfinding;
 using UnityEngine;
 
@@ -18,16 +19,17 @@ namespace CellContents
             _seeker = GetComponent<Seeker>();
             _seeker.graphMask = 1;
 
-            InvokeRepeating("findPath", 0f, 1f);
+            InvokeRepeating("FindPath", 0f, 1f);
+            InvokeRepeating("FindAttackTarget", 0f, 1f);
         }
 
         protected override void Update()
         {
             base.Update();
-            // UpdateAIMovement();
+            // UpdateAiMovement();
         }
 
-        private void UpdateAIMovement()
+        private void UpdateAiMovement()
         {
             if (!IsMoving && _currentNavigationPath != null)
             {
@@ -66,7 +68,7 @@ namespace CellContents
             }
         }
 
-        private void findPath()
+        private void FindPath()
         {
             var myPosition = ParentCell.transform.position;
             var playerPosition = MyGrid.Instance.player.ParentCell.transform.position;
@@ -84,6 +86,25 @@ namespace CellContents
                     _currentNavigationIndex = 0;
                 }
             });
+        }
+
+        private void FindAttackTarget()
+        {
+            var neighbourCellsOfRange = MyGrid.Instance.GetNeighbourCellsOfRange(ParentCell, GetResource().attackRange);
+            CreatureController targetCreature = neighbourCellsOfRange
+                .Select(cell => cell.GetCreature())
+                .FirstOrDefault(creature => creature != null);
+
+            if (targetCreature)
+            {
+                MarkCreatureAsTarget(targetCreature);
+                Debug.Log($"Found target creature {targetCreature}");
+            }
+            else
+            {
+                UnmarkCreatureAsTarget();
+            }
+
         }
     }
 }

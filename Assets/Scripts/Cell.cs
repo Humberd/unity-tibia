@@ -50,8 +50,8 @@ public class Cell : MonoBehaviour
         var topCellContent = items.Peek();
         if (topCellContent.GetResource().isDraggable)
         {
-            targetCell.MoveItem(items.Pop());
-            UpdateSortingOrder();
+            MoveItemFromThis(topCellContent);
+            targetCell.MoveItemToThis(topCellContent);
             return;
         }
     }
@@ -157,11 +157,18 @@ public class Cell : MonoBehaviour
         UpdateNavigationNode();
     }
 
-    public void MoveItem(ItemController itemController)
+    public void MoveItemToThis(ItemController itemController)
     {
         itemController.gameObject.transform.SetParent(transform, false);
         items.Push(itemController);
         itemController.ParentCell = this;
+        UpdateSortingOrder();
+        UpdateNavigationNode();
+    }
+
+    public void MoveItemFromThis(ItemController itemController)
+    {
+        items.Pop();
         UpdateSortingOrder();
         UpdateNavigationNode();
     }
@@ -182,11 +189,6 @@ public class Cell : MonoBehaviour
         UpdateNavigationNode();
     }
 
-    public int GetCreaturesCount()
-    {
-        return creatures.Count;
-    }
-
     public void SetCoords(Vector2Int coords)
     {
         this.coords = coords;
@@ -196,6 +198,26 @@ public class Cell : MonoBehaviour
     {
         _gridNode = gridNode;
         UpdateNavigationNode();
+    }
+
+    public CreatureController GetCreature()
+    {
+        if (!HasCreature())
+        {
+            return null;
+        }
+
+        return creatures.Peek();
+    }
+
+    public int GetCreaturesCount()
+    {
+        return creatures.Count;
+    }
+
+    public bool HasCreature()
+    {
+        return GetCreaturesCount() > 0;
     }
 
     public GridNode GetGridNode()
