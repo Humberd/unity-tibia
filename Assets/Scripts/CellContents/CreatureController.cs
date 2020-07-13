@@ -60,6 +60,12 @@ namespace CellContents
             base.Update();
         }
 
+        public void RotateSpriteTo(MoveDirection direction)
+        {
+            CurrentMoveDirection = direction;
+            UpdateSprite();
+        }
+
         public void UpdateSprite()
         {
             Sprite currentSprite;
