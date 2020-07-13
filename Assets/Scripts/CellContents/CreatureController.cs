@@ -1,4 +1,5 @@
 ﻿using Asserts;
+using MyGridNs;
 using ResourceTypes;
 using UI.Bar;
 using UI.CreatureBorder;
@@ -202,12 +203,5 @@ namespace CellContents
             _creatureBorderController.Hide();
         }
 
-        public enum MoveDirection
-        {
-            Up,
-            Down,
-            Left,
-            Right
-        }
     }
 }

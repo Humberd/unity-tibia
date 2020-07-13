@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Asserts;
+using MyGridNs;
 using Pathfinding;
 using UnityEngine;
 
@@ -45,24 +46,7 @@ namespace CellContents
                     Vector3 nextNavigationCoords = (Vector3) _currentNavigationPath.path[_currentNavigationIndex++].position;
                     Vector3 currentCoords = ParentCell.transform.position;
 
-                    var normalized =Vector2Int.FloorToInt((nextNavigationCoords - currentCoords).normalized);
-                    if (normalized == Vector2Int.up)
-                    {
-                        Move(MoveDirection.Up);
-                    } else if (normalized == Vector2Int.right)
-                    {
-                        Move(MoveDirection.Right);
-                    } else if (normalized == Vector2Int.down)
-                    {
-                        Move(MoveDirection.Down);
-                    } else if (normalized == Vector2Int.left)
-                    {
-                        Move(MoveDirection.Left);
-                    }
-                    else
-                    {
-                        throw new NotReached();
-                    }
+                    Move(Utils.GetDirection(currentCoords, nextNavigationCoords));
                     // Debug.Log($"{nextNavigationCoords}, {currentCoords}, {normalized}");
                 }
             }
@@ -95,9 +79,10 @@ namespace CellContents
                 .Select(cell => cell.GetCreature())
                 .FirstOrDefault(creature => creature != null);
 
-            if (targetCreature)
+            if (targetCreature != null)
             {
                 MarkCreatureAsTarget(targetCreature);
+                RotateSpriteTo(Utils.GetDirection(transform.position, targetCreature.transform.position));
                 Debug.Log($"Found target creature {targetCreature}");
             }
             else
