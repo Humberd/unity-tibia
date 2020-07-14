@@ -10,6 +10,7 @@ namespace ResourceTypes
         public float movementSpeed = 1f;
         public int maxHealth = 100;
         public int attackRange = 1;
+        public int targetSearchRadius = 1;
         public int attackDamage = 10;
         public float attackPerSecond = 1f;
 

@@ -74,7 +74,7 @@ namespace CellContents
 
         private void FindAttackTarget()
         {
-            var neighbourCellsOfRange = MyGrid.Instance.GetNeighbourCellsOfRange(ParentCell, GetResource().attackRange);
+            var neighbourCellsOfRange = MyGrid.Instance.GetNeighbourCellsOfRange(ParentCell, GetResource().targetSearchRadius);
             CreatureController targetCreature = neighbourCellsOfRange
                 .Select(cell => cell.GetCreature())
                 .FirstOrDefault(creature => creature != null && !creature.IsDead);

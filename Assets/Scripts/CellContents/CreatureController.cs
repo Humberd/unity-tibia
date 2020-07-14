@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Linq;
 using Asserts;
 using MyGridNs;
 using ResourceTypes;
 using UI.Bar;
 using UI.CreatureBorder;
+using UI.DamageIndicator;
 using UnityEngine;
 
 namespace CellContents
@@ -20,6 +22,7 @@ namespace CellContents
         protected MoveDirection CurrentMoveDirection;
         private BarController _healthBarController;
         private CreatureBorderController _creatureBorderController;
+        private DamageIndicatorController _damageIndicatorController;
 
         protected CreatureController AttackTargetCreature;
         protected bool IsInAttackMode;
@@ -38,6 +41,10 @@ namespace CellContents
             var borderPrefab = Resources.Load<GameObject>("UI/CreatureBorder");
             _creatureBorderController = Instantiate(borderPrefab, transform).GetComponent<CreatureBorderController>();
             _creatureBorderController.Hide();
+
+            var damageIndicatorPrefab = Resources.Load<GameObject>("UI/DamageIndicator");
+            _damageIndicatorController =
+                Instantiate(damageIndicatorPrefab, transform).GetComponent<DamageIndicatorController>();
 
             SpriteRenderingController.UpdateSprite(GetResource().idleAnimations.Down);
         }
@@ -189,6 +196,8 @@ namespace CellContents
             {
                 IsDead = true;
             }
+
+            _damageIndicatorController.DisplayDamage(damage);
         }
 
         public void DealDamage(int damage, CreatureController attackedCreature)
@@ -208,21 +217,28 @@ namespace CellContents
             {
                 _attackCoroutine = StartCoroutine("StartAttacking", AttackTargetCreature);
             }
-
         }
 
         private IEnumerator StartAttacking(CreatureController target)
         {
             do
             {
-                target.TakeDamage(GetResource().attackDamage);
-                if (target.IsDead)
+                var neighbourCellsOfRange = MyGrid.Instance.GetNeighbourCellsOfRange(ParentCell, GetResource().attackRange);
+                bool isInAttackRange = neighbourCellsOfRange
+                    .Select(cell => cell.GetCreature())
+                    .Any(creature => creature == target);
+
+                if (isInAttackRange)
                 {
-                    UnmarkCreatureAsTarget();
-                    yield break;
+                    DealDamage(GetResource().attackDamage, target);
+                    if (target.IsDead)
+                    {
+                        UnmarkCreatureAsTarget();
+                        yield break;
+                    }
                 }
 
-                yield return new WaitForSeconds(GetResource().attackPerSecond);
+                yield return new WaitForSeconds(1 / GetResource().attackPerSecond);
             } while (IsInAttackMode && target == AttackTargetCreature);
         }
 
@@ -235,8 +251,8 @@ namespace CellContents
             {
                 StopCoroutine(_attackCoroutine);
             }
+
             _attackCoroutine = null;
         }
-
     }
 }
