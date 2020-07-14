@@ -77,7 +77,7 @@ namespace CellContents
             var neighbourCellsOfRange = MyGrid.Instance.GetNeighbourCellsOfRange(ParentCell, GetResource().attackRange);
             CreatureController targetCreature = neighbourCellsOfRange
                 .Select(cell => cell.GetCreature())
-                .FirstOrDefault(creature => creature != null);
+                .FirstOrDefault(creature => creature != null && !creature.IsDead);
 
             if (targetCreature != null)
             {

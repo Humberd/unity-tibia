@@ -1,4 +1,5 @@
-﻿using Asserts;
+﻿using System.Collections;
+using Asserts;
 using MyGridNs;
 using ResourceTypes;
 using UI.Bar;
@@ -12,6 +13,8 @@ namespace CellContents
         public int health;
         public int MaxHealth => GetResource().maxHealth;
         public bool IsMoving { get; set; }
+        public bool IsDead { get; set; }
+
         private float _movingProgressWithSpeed;
         private Vector2 _startAnimationOffset;
         protected MoveDirection CurrentMoveDirection;
@@ -20,6 +23,7 @@ namespace CellContents
 
         protected CreatureController AttackTargetCreature;
         protected bool IsInAttackMode;
+        private Coroutine _attackCoroutine;
 
         protected override void Start()
         {
@@ -181,6 +185,10 @@ namespace CellContents
         public void TakeDamage(int damage)
         {
             health -= damage;
+            if (health <= 0)
+            {
+                IsDead = true;
+            }
         }
 
         public void DealDamage(int damage, CreatureController attackedCreature)
@@ -190,10 +198,32 @@ namespace CellContents
 
         protected void MarkCreatureAsTarget(CreatureController creatureController)
         {
+            var wasInAttackMode = IsInAttackMode;
             AttackTargetCreature = creatureController;
             IsInAttackMode = true;
             _creatureBorderController.Show();
             _creatureBorderController.SetAttackMode();
+
+            if (!wasInAttackMode)
+            {
+                _attackCoroutine = StartCoroutine("StartAttacking", AttackTargetCreature);
+            }
+
+        }
+
+        private IEnumerator StartAttacking(CreatureController target)
+        {
+            do
+            {
+                target.TakeDamage(GetResource().attackDamage);
+                if (target.IsDead)
+                {
+                    UnmarkCreatureAsTarget();
+                    yield break;
+                }
+
+                yield return new WaitForSeconds(GetResource().attackPerSecond);
+            } while (IsInAttackMode && target == AttackTargetCreature);
         }
 
         protected void UnmarkCreatureAsTarget()
@@ -201,6 +231,11 @@ namespace CellContents
             AttackTargetCreature = null;
             IsInAttackMode = false;
             _creatureBorderController.Hide();
+            if (_attackCoroutine != null)
+            {
+                StopCoroutine(_attackCoroutine);
+            }
+            _attackCoroutine = null;
         }
 
     }

@@ -7,9 +7,11 @@ namespace ResourceTypes
     {
         public Texture2D idle;
         public Texture2D walking;
-        public float movementSpeed = 1.0f;
+        public float movementSpeed = 1f;
         public int maxHealth = 100;
         public int attackRange = 1;
+        public int attackDamage = 10;
+        public float attackPerSecond = 1f;
 
         public WalkAnimations walkAnimations;
         public IdleAnimations idleAnimations;
